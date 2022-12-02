@@ -9,12 +9,13 @@ class TextfieldContainer extends StatelessWidget {
       this.hinttext,
       this.TrailingIcon,
       this.validator,
+      this.errorText,
       this.leadingIcon,
       this.OnChange})
       : super(key: key);
 
   TextEditingController Controller = TextEditingController();
-  String? hinttext;
+  String? hinttext, errorText;
   Icon? leadingIcon;
   Icon? TrailingIcon;
   void OnChange;
@@ -32,12 +33,14 @@ class TextfieldContainer extends StatelessWidget {
       child: ListTile(
         leading: leadingIcon,
         title: TextFormField(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: validator,
           onChanged: (value) => OnChange,
           style: const TextStyle(color: whiteColor),
           cursorColor: whiteColor,
           controller: Controller,
           decoration: InputDecoration(
+            errorText: errorText,
             border: InputBorder.none,
             hintText: hinttext,
             hintStyle: TextStyle(

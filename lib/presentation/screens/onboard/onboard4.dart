@@ -4,7 +4,7 @@ import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
 import 'package:shoea_app/presentation/screens/onboard/onboard2.dart';
 import 'package:shoea_app/presentation/screens/onboard/widget/onboard_widget.dart';
-import 'package:shoea_app/presentation/screens/signIn/login.dart';
+import 'package:shoea_app/presentation/screens/Auth/signIn/login.dart';
 
 class onboard4 extends StatelessWidget {
   const onboard4({Key? key}) : super(key: key);

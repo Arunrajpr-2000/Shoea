@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shoea_app/Application/Provider/google_signIn.dart';
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/presentation/screens/MainPage/mainpage.dart';
 import 'package:shoea_app/presentation/screens/settings/setting_screen.dart';
-import 'package:shoea_app/presentation/screens/signIn/login.dart';
+import 'package:shoea_app/presentation/screens/Auth/signIn/login.dart';
 import 'package:shoea_app/presentation/widgets/list_tile_widget.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -59,12 +62,14 @@ class DrawerWidget extends StatelessWidget {
             IconColor: Color(0xff2b2b29),
             Title: 'Log out',
             LeadIcon: Icons.settings,
-            Ontap: () {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginScreen(),
-                  ));
+            Ontap: () async {
+              final provider =
+                  Provider.of<GoogleSignInProvider>(context, listen: false);
+              provider.logout();
+
+              // await FirebaseAuth.instance.signOut();
+              // Navigator.of(context).pushReplacement(
+              //     MaterialPageRoute(builder: (ctx1) => LoginScreen()));
             },
           ),
         ])));

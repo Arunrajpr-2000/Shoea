@@ -88,7 +88,7 @@ class HomeScreenHeaderWidget extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             children: [
               k10width,
-              const AllCircleAvatar(),
+              AllCircleAvatar(),
               k10width,
               CircleAvatarWidget(
                 Imagepath: Image.asset(

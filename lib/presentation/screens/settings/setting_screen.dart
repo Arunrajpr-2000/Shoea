@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shoea_app/core/color/colors.dart';
-import 'package:shoea_app/presentation/screens/signIn/login.dart';
+import 'package:shoea_app/presentation/screens/Auth/signIn/login.dart';
 import 'package:shoea_app/presentation/widgets/drawer_widget.dart';
 import 'package:shoea_app/presentation/widgets/list_tile_widget.dart';
 
@@ -69,8 +69,8 @@ class SettingScreen extends StatelessWidget {
               Title: 'Logout',
               Ontap: () async {
                 await FirebaseAuth.instance.signOut();
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (ctx1) => LoginScreen()));
+                // Navigator.of(context).pushReplacement(
+                //     MaterialPageRoute(builder: (ctx1) => LoginScreen()));
               },
               TrailingButton: Icon(
                 Icons.arrow_forward_ios,

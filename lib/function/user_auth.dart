@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:shoea_app/presentation/screens/Auth/widget/snackbarAuth.dart';
 
 class UserAuth {
   static Future signUp(
@@ -11,7 +12,8 @@ class UserAuth {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
-      print(e);
+      log(e.toString());
+      Utils.showSnackBar(context: context, text: e.message);
     }
   }
 
@@ -24,13 +26,16 @@ class UserAuth {
           .signInWithEmailAndPassword(email: email, password: password);
       return user;
     } on FirebaseAuthException catch (e) {
-      print(e);
+      log(e.toString());
+      Utils.showSnackBar(context: context, text: e.message);
     }
-    Navigator.pop(context);
   }
 
   static Future addUser() async {
     final email = FirebaseAuth.instance.currentUser!.email;
+
+    final passwords = FirebaseAuth.instance.currentUser!;
+
     log(email.toString());
 
     final docUser = FirebaseFirestore.instance.collection('users').doc(email);

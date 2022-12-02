@@ -1,24 +1,26 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shoea_app/Application/bloc/auth_bloc.dart';
+import 'package:provider/provider.dart';
+import 'package:shoea_app/Application/Authbloc/auth_bloc.dart';
+import 'package:shoea_app/Application/Provider/google_signIn.dart';
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
-import 'package:shoea_app/main.dart';
-import 'package:shoea_app/presentation/screens/MainPage/mainpage.dart';
+import 'package:shoea_app/function/user_auth.dart';
+import 'package:shoea_app/presentation/screens/Auth/ForgotPassword/forgot_password.dart';
 import 'package:shoea_app/presentation/screens/payment/widget/paymet_method_tile_widget.dart';
-import 'package:shoea_app/presentation/screens/signIn/widget/auth_page.dart';
-import 'package:shoea_app/presentation/screens/signUp/SingUp_Screen.dart';
 import 'package:shoea_app/presentation/widgets/textfield_container.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
 
   final navKey = GlobalKey<NavigatorState>();
+  bool _validate = false;
 
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   final formkey = GlobalKey<FormState>();
 
@@ -52,9 +54,14 @@ class LoginScreen extends StatelessWidget {
                   k20height,
                   k20height,
                   TextfieldContainer(
-                    Controller: _emailController,
+                    Controller: emailController,
                     hinttext: 'Email',
-                    leadingIcon: Icon(
+                    //  errorText: _validate ? 'wrong password' : null,
+                    // validator: (email) => email != null
+                    //     // && EmailValidator.validate(email)
+                    //     ? 'Enter a valid Email'
+                    //     : null,
+                    leadingIcon: const Icon(
                       Icons.email,
                       color: Colors.grey,
                       size: 20,
@@ -62,14 +69,18 @@ class LoginScreen extends StatelessWidget {
                   ),
                   k20height,
                   TextfieldContainer(
-                      Controller: _passwordController,
+                      Controller: passwordController,
                       hinttext: 'Password',
-                      leadingIcon: Icon(
+                      validator: (passwrd) =>
+                          passwrd != null && passwrd.length < 6
+                              ? ' Enter Min 6 Letters'
+                              : null,
+                      leadingIcon: const Icon(
                         Icons.lock,
                         color: Colors.grey,
                         size: 20,
                       ),
-                      TrailingIcon: Icon(
+                      TrailingIcon: const Icon(
                         Icons.remove_red_eye,
                         color: Colors.grey,
                         size: 20,
@@ -77,21 +88,13 @@ class LoginScreen extends StatelessWidget {
                   k20height,
                   GestureDetector(
                     onTap: () {
-                      // Navigator.of(context).push(MaterialPageRoute(
-                      //   builder: (context) => LoginStream(),
-                      // ));
-                      // signIn();
-                      // Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      //   builder: (context) => MainScreen(),
-                      // ));
+                      final isValid = formkey.currentState!.validate();
+                      if (!isValid) return;
                       BlocProvider.of<AuthBloc>(context).add(AuthLogin(
                           context: context,
-                          email: _emailController.text.trim(),
-                          password: _passwordController.text.trim()));
+                          email: emailController.text.trim(),
+                          password: passwordController.text.trim()));
                     },
-                    // Navigator.of(context).push(
-                    //     MaterialPageRoute(
-                    //         builder: (context) => MainScreen())),
                     child: Container(
                       width: 300,
                       height: 50,
@@ -136,18 +139,34 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   k10height,
-                  Text(
-                    "Forgotten password?",
-                    style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.bold),
+                  GestureDetector(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ForgotScreen(),
+                    )),
+                    child: Text(
+                      "Forgotten password?",
+                      style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                   k20height,
-                  PaymentMethodsTile(
-                    ImageUrl:
-                        'https://play-lh.googleusercontent.com/6UgEjh8Xuts4nwdWzTnWH8QtLuHqRMUB7dp24JYVE2xcYzq4HA8hFfcAbU-R-PC_9uA1',
-                    Title: 'Sign in With Google',
+                  GestureDetector(
+                    onTap: () {
+                      final provider = Provider.of<GoogleSignInProvider>(
+                          context,
+                          listen: false);
+
+                      provider.googleLogin();
+
+                      UserAuth.addUser();
+                    },
+                    child: const PaymentMethodsTile(
+                      ImageUrl:
+                          'https://play-lh.googleusercontent.com/6UgEjh8Xuts4nwdWzTnWH8QtLuHqRMUB7dp24JYVE2xcYzq4HA8hFfcAbU-R-PC_9uA1',
+                      Title: 'Sign in With Google',
+                    ),
                   )
                 ],
               ),

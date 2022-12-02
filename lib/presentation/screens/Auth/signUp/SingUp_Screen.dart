@@ -1,9 +1,10 @@
 import 'dart:developer';
 
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shoea_app/Application/bloc/auth_bloc.dart';
+import 'package:shoea_app/Application/Authbloc/auth_bloc.dart';
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
 import 'package:shoea_app/presentation/widgets/textfield_container.dart';
@@ -13,7 +14,7 @@ class SignUpScreen extends StatelessWidget {
   SignUpScreen({Key? key}) : super(key: key);
 
   final formkey = GlobalKey<FormState>();
-
+  bool _validate = false;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmpasswordController = TextEditingController();
@@ -50,6 +51,10 @@ class SignUpScreen extends StatelessWidget {
                     k20height,
                     k20height,
                     TextfieldContainer(
+                      // validator: (email) =>
+                      //     email != null && EmailValidator.validate(email)
+                      //         ? 'Enter a valid Email'
+                      //         : null,
                       Controller: _emailController,
                       hinttext: 'Email',
                       leadingIcon: Icon(
@@ -61,7 +66,7 @@ class SignUpScreen extends StatelessWidget {
                     k20height,
                     TextfieldContainer(
                         Controller: _passwordController,
-                        validator: (value) => value != null && value.length <= 6
+                        validator: (value) => value != null && value.length < 6
                             ? 'Minimum 6 letters'
                             : null,
                         hinttext: 'Password',
@@ -100,7 +105,7 @@ class SignUpScreen extends StatelessWidget {
                     k20height,
                     GestureDetector(
                       onTap: () {
-                        log('calling blco');
+                        log('calling SignUp Bloc');
 
                         final isValid = formkey.currentState!.validate();
                         if (!isValid) {

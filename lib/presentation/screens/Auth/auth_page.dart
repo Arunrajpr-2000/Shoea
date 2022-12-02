@@ -1,20 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shoea_app/Application/bloc/auth_bloc.dart';
+import 'package:shoea_app/Application/Authbloc/auth_bloc.dart';
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/presentation/screens/MainPage/mainpage.dart';
-import 'package:shoea_app/presentation/screens/signIn/login.dart';
-import 'package:shoea_app/presentation/screens/signUp/SingUp_Screen.dart';
+import 'package:shoea_app/presentation/screens/Auth/signIn/login.dart';
+import 'package:shoea_app/presentation/screens/Auth/signUp/SingUp_Screen.dart';
 
-class LoginStream extends StatefulWidget {
+class LoginStream extends StatelessWidget {
   LoginStream({Key? key}) : super(key: key);
 
-  @override
-  State<LoginStream> createState() => _LoginStreamState();
-}
-
-class _LoginStreamState extends State<LoginStream> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
@@ -22,11 +17,14 @@ class _LoginStreamState extends State<LoginStream> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator(
-              color: ScaffoldBgcolor,
+              color: whiteColor,
             );
           } else if (snapshot.hasError) {
             return const Center(
-              child: Text('Somthing went wrong'),
+              child: Text(
+                'Somthing went wrong',
+                style: TextStyle(color: whiteColor),
+              ),
             );
           } else if (snapshot.hasData) {
             return MainScreen();

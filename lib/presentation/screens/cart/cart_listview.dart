@@ -19,7 +19,7 @@ class CartListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      separatorBuilder: (context, index) => k20height,
+      separatorBuilder: (context, index) => k30height,
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
@@ -43,7 +43,7 @@ class CartListView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 8.0),
               child: SizedBox(
-                width: 120.w,
+                width: 100.w,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -52,7 +52,7 @@ class CartListView extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: whiteColor,
-                          fontSize: 18.sp,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
@@ -61,7 +61,7 @@ class CartListView extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: whiteColor,
-                          fontSize: 17.sp,
+                          fontSize: 15.sp,
                           fontWeight: FontWeight.bold),
                     ),
                   ],
@@ -69,6 +69,7 @@ class CartListView extends StatelessWidget {
               ),
             ),
             Column(
+              // mainAxisSize: MainAxisSize.min,
               children: [
                 IconButton(
                     onPressed: () {},

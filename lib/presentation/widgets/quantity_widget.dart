@@ -17,7 +17,7 @@ class QuantityWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 40.h,
+      height: 45.h,
       decoration: BoxDecoration(
           color: const Color(0xff1F222B),
           borderRadius: BorderRadius.circular(16)),

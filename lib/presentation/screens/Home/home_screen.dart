@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shoea_app/core/color/colors.dart';
-import 'package:shoea_app/presentation/widgets/itemwidget.dart';
+import 'package:shoea_app/presentation/screens/Home/widget/itemwidget.dart';
 import 'widget/Home_header_widget.dart';
 
 class ScreenHome extends StatelessWidget {
@@ -21,22 +19,6 @@ class ScreenHome extends StatelessWidget {
   }
 }
 
-class AllCircleAvatar extends StatelessWidget {
-  AllCircleAvatar({Key? key}) : super(key: key);
 
-  final user = FirebaseAuth.instance.currentUser!;
 
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      backgroundColor: const Color(0xff393A3F),
-      radius: 30.r,
-      // backgroundImage: NetworkImage(user.photoURL!),
-      child: const Text(
-        'All',
-        style: TextStyle(
-            color: whiteColor, fontSize: 20, fontWeight: FontWeight.bold),
-      ),
-    );
-  }
-}
+

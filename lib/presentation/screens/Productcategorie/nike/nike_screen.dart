@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/presentation/widgets/drawer_widget.dart';
-import 'package:shoea_app/presentation/widgets/itemwidget.dart';
+import 'package:shoea_app/presentation/screens/Home/widget/itemwidget.dart';
 
 class NikeScreen extends StatelessWidget {
   const NikeScreen({Key? key}) : super(key: key);

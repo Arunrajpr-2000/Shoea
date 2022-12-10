@@ -1,7 +1,11 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/presentation/screens/Home/home_screen.dart';
+import 'package:shoea_app/presentation/screens/Home/widget/inside_category.dart';
 import 'package:shoea_app/presentation/screens/Productcategorie/nike/nike_screen.dart';
 import 'package:shoea_app/presentation/screens/settings/setting_screen.dart';
 import 'package:shoea_app/presentation/widgets/headerTile.dart';
@@ -23,7 +27,7 @@ class HomeScreenHeaderWidget extends StatelessWidget {
     return Column(
       children: [
         HeaderTile(
-            Title: Text(
+            Title: const Text(
               'Shoea',
               style: TextStyle(color: whiteColor),
             ),
@@ -84,75 +88,111 @@ class HomeScreenHeaderWidget extends StatelessWidget {
         k10height,
         SizedBox(
           height: 100.h,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              k10width,
-              AllCircleAvatar(),
-              k10width,
-              CircleAvatarWidget(
-                Imagepath: Image.asset(
-                  'asset/BrandImages/NikeLogo.png',
-                  // 'asset/BrandImages/NikeLogo.png',
-                  width: 60.w,
-                  height: 60.h,
-                  fit: BoxFit.contain,
-                ),
-                Ontap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const NikeScreen(),
-                )),
-              ),
-              k10width,
-              CircleAvatarWidget(
-                Imagepath: Image.asset(
-                  'asset/BrandImages/pumaLogo.png',
-                  // 'asset/BrandImages/NikeLogo.png',
-                  width: 60.w,
-                  height: 60.h,
-                  fit: BoxFit.contain,
-                ),
-                Ontap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const NikeScreen(),
-                )),
-              ),
-              k10width,
-              CircleAvatarWidget(
-                Imagepath: Image.asset(
-                  'asset/BrandImages/Reebook.png',
-                  width: 35.w,
-                  height: 35.h,
-                  fit: BoxFit.contain,
-                ),
-                Ontap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const NikeScreen(),
-                )),
-              ),
-              k10width,
-              CircleAvatarWidget(
-                Imagepath: Image.asset(
-                  'asset/BrandImages/1689-removebg-preview (1).png',
-                  width: 35.w,
-                  height: 35.h,
-                  fit: BoxFit.contain,
-                ),
-                Ontap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const NikeScreen(),
-                )),
-              ),
-              k10width,
-              CircleAvatarWidget(
-                Imagepath: Image.asset(
-                  'asset/BrandImages/Under-Armour-Logo-White-RED-removebg-preview.png',
-                  width: 35.w,
-                  height: 35.h,
-                  fit: BoxFit.contain,
-                ),
-                Ontap: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => const NikeScreen(),
-                )),
-              ),
-            ],
-          ),
+          child: StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('categories')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.separated(
+                    separatorBuilder: (context, index) => k10width,
+                    itemCount: snapshot.data!.docs.length,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                      QueryDocumentSnapshot documentSnapshot =
+                          snapshot.data!.docs[index];
+                      String id = snapshot.data!.docs[index].id;
+                      log("ID $id");
+                      if (id == documentSnapshot['name']) {
+                        return CircleAvatarWidget(
+                          Ontap: () =>
+                              Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => InSideCategory(
+                                brandName: documentSnapshot['name']),
+                          )),
+                          BrandName: documentSnapshot['name'],
+                        );
+                      } else {
+                        return Text('');
+                      }
+                    },
+                  );
+                } else {
+                  return const Align(
+                    alignment: FractionalOffset.bottomCenter,
+                    child: CircularProgressIndicator(
+                      color: Colors.black,
+                    ),
+                  );
+                }
+
+                // children: [
+                //   k10width,
+                //   AllCircleAvatar(),
+                //   k10width,
+                //   CircleAvatarWidget(
+                //     Imagepath: Image.asset(
+                //       'asset/BrandImages/NikeLogo.png',
+                //       // 'asset/BrandImages/NikeLogo.png',
+                //       width: 60.w,
+                //       height: 60.h,
+                //       fit: BoxFit.contain,
+                //     ),
+                //     Ontap: () => Navigator.of(context).push(MaterialPageRoute(
+                //       builder: (context) => const NikeScreen(),
+                //     )),
+                //   ),
+                //   k10width,
+                //   CircleAvatarWidget(
+                //     Imagepath: Image.asset(
+                //       'asset/BrandImages/pumaLogo.png',
+                //       // 'asset/BrandImages/NikeLogo.png',
+                //       width: 60.w,
+                //       height: 60.h,
+                //       fit: BoxFit.contain,
+                //     ),
+                //     Ontap: () => Navigator.of(context).push(MaterialPageRoute(
+                //       builder: (context) => const NikeScreen(),
+                //     )),
+                //   ),
+                //   k10width,
+                //   CircleAvatarWidget(
+                //     Imagepath: Image.asset(
+                //       'asset/BrandImages/Reebook.png',
+                //       width: 35.w,
+                //       height: 35.h,
+                //       fit: BoxFit.contain,
+                //     ),
+                //     Ontap: () => Navigator.of(context).push(MaterialPageRoute(
+                //       builder: (context) => const NikeScreen(),
+                //     )),
+                //   ),
+                //   k10width,
+                //   CircleAvatarWidget(
+                //     Imagepath: Image.asset(
+                //       'asset/BrandImages/1689-removebg-preview (1).png',
+                //       width: 35.w,
+                //       height: 35.h,
+                //       fit: BoxFit.contain,
+                //     ),
+                //     Ontap: () => Navigator.of(context).push(MaterialPageRoute(
+                //       builder: (context) => const NikeScreen(),
+                //     )),
+                //   ),
+                //   k10width,
+                //   CircleAvatarWidget(
+                //     Imagepath: Image.asset(
+                //       'asset/BrandImages/Under-Armour-Logo-White-RED-removebg-preview.png',
+                //       width: 35.w,
+                //       height: 35.h,
+                //       fit: BoxFit.contain,
+                //     ),
+                //     Ontap: () => Navigator.of(context).push(MaterialPageRoute(
+                //       builder: (context) => const NikeScreen(),
+                //     )),
+                //   ),
+                // ],
+              }),
         ),
       ],
     );

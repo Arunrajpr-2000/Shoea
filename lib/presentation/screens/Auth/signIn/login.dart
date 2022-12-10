@@ -1,10 +1,13 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:shoea_app/Application/Authbloc/auth_bloc.dart';
+import 'package:shoea_app/Application/Bloc/Authbloc/auth_bloc.dart';
 import 'package:shoea_app/Application/Provider/google_signIn.dart';
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
@@ -153,14 +156,30 @@ class LoginScreen extends StatelessWidget {
                   ),
                   k20height,
                   GestureDetector(
-                    onTap: () {
+                    onTap: () async {
                       final provider = Provider.of<GoogleSignInProvider>(
                           context,
                           listen: false);
 
                       provider.googleLogin();
 
-                      UserAuth.addUser();
+                      //UserAuth.addUser();
+
+                      // final email = FirebaseAuth.instance.currentUser!.email;
+
+                      // // final passwords = FirebaseAuth.instance.currentUser!;
+
+                      // log(email.toString());
+
+                      // final docUser = FirebaseFirestore.instance
+                      //     .collection('users')
+                      //     .doc(email);
+
+                      // Map<String, dynamic> map = {
+                      //   'email': email,
+                      // };
+                      // await docUser.set(map);
+                      // log('new user created n added to databse');
                     },
                     child: const PaymentMethodsTile(
                       ImageUrl:

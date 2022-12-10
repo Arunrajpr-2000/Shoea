@@ -66,6 +66,7 @@ class DrawerWidget extends StatelessWidget {
               final provider =
                   Provider.of<GoogleSignInProvider>(context, listen: false);
               provider.logout();
+              await FirebaseAuth.instance.signOut();
 
               // await FirebaseAuth.instance.signOut();
               // Navigator.of(context).pushReplacement(

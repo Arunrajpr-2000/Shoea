@@ -1,10 +1,11 @@
 import 'dart:developer';
 
-import 'package:email_validator/email_validator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shoea_app/Application/Authbloc/auth_bloc.dart';
+import 'package:shoea_app/Application/Bloc/AuthBloc/auth_bloc.dart';
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
 import 'package:shoea_app/presentation/widgets/textfield_container.dart';
@@ -18,6 +19,8 @@ class SignUpScreen extends StatelessWidget {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmpasswordController = TextEditingController();
+  final _namecontroller = TextEditingController();
+  final _phonenumController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +53,32 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     k20height,
                     k20height,
+                    // TextfieldContainer(
+                    //   // validator: (email) =>
+                    //   //     email != null && EmailValidator.validate(email)
+                    //   //         ? 'Enter a valid Email'
+                    //   //         : null,
+                    //   Controller: _namecontroller,
+                    //   hinttext: 'Enter your Name',
+                    //   leadingIcon: Icon(
+                    //     Icons.person,
+                    //     color: Colors.grey,
+                    //     size: 20,
+                    //   ),
+                    // ),
+                    // TextfieldContainer(
+                    //   // validator: (email) =>
+                    //   //     email != null && EmailValidator.validate(email)
+                    //   //         ? 'Enter a valid Email'
+                    //   //         : null,
+                    //   Controller: _phonenumController,
+                    //   hinttext: 'Enter your Mobile No.',
+                    //   leadingIcon: Icon(
+                    //     Icons.person,
+                    //     color: Colors.grey,
+                    //     size: 20,
+                    //   ),
+                    // ),
                     TextfieldContainer(
                       // validator: (email) =>
                       //     email != null && EmailValidator.validate(email)
@@ -104,8 +133,25 @@ class SignUpScreen extends StatelessWidget {
                         )),
                     k20height,
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         log('calling SignUp Bloc');
+                        // final emailuser =
+                        //     FirebaseAuth.instance.currentUser!.email;
+
+                        // final passwords = FirebaseAuth.instance.currentUser!
+                        //     .updatePassword(_passwordController.text);
+
+                        // log(emailuser.toString());
+
+                        // final docUser = FirebaseFirestore.instance
+                        //     .collection('users')
+                        //     .doc(emailuser);
+                        // List<String> Cart = [];
+                        // Map<String, dynamic> map = {
+                        //   'email': emailuser,
+                        //   'passsword': passwords,
+                        // };
+                        // await docUser.set(map);
 
                         final isValid = formkey.currentState!.validate();
                         if (!isValid) {
@@ -116,6 +162,29 @@ class SignUpScreen extends StatelessWidget {
                             email: _emailController.text.trim(),
                             password: _passwordController.text.trim(),
                             context: context));
+
+                        // Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        //   builder: (context) => LoginScreen(),
+                        // ));
+                        final emailuser =
+                            FirebaseAuth.instance.currentUser!.email;
+
+                        final passwords = FirebaseAuth.instance.currentUser!
+                            .updatePassword(_passwordController.text);
+
+                        log(emailuser.toString());
+
+                        final docUser = FirebaseFirestore.instance
+                            .collection('users')
+                            .doc(emailuser);
+                        List<String> Cart = [];
+                        Map<String, dynamic> map = {
+                          'email': emailuser,
+                          'passsword': _passwordController.text,
+                        };
+                        await docUser.set(map);
+
+                        log('new user created n added to databse');
                       },
                       child: Container(
                         width: 300,

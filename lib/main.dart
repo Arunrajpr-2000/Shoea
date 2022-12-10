@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:shoea_app/Application/Authbloc/auth_bloc.dart';
+import 'package:shoea_app/Application/Bloc/Authbloc/auth_bloc.dart';
+import 'package:shoea_app/Application/Bloc/CartBloc/cart_bloc.dart';
 import 'package:shoea_app/Application/Provider/google_signIn.dart';
-import 'package:shoea_app/presentation/screens/onboard/onboard2.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:shoea_app/presentation/screens/Auth/signIn/login.dart';
 import 'package:shoea_app/presentation/screens/Auth/auth_page.dart';
 
 Future main() async {
@@ -24,22 +23,25 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(360, 800),
       builder: (context, _) {
-        return MultiBlocProvider(
+        return MultiProvider(
             providers: [
               BlocProvider<AuthBloc>(
                 create: (BuildContext context) => AuthBloc(),
               ),
-            ],
-            child: ChangeNotifierProvider(
-              create: (context) => GoogleSignInProvider(),
-              child: MaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: 'Shoea E-Commerce',
-                theme: ThemeData(
-                  primarySwatch: Colors.blue,
-                ),
-                home: LoginStream(),
+              ChangeNotifierProvider(
+                create: (context) => GoogleSignInProvider(),
               ),
+              BlocProvider<CartBloc>(
+                create: (BuildContext context) => CartBloc(),
+              ),
+            ],
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              title: 'Flutter E-Commerce',
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              home: LoginStream(),
             ));
       },
     );

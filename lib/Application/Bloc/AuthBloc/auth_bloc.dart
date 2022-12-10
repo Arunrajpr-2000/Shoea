@@ -21,9 +21,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     on<AuthSignUp>((event, emit) async {
       await UserAuth.signUp(
-          context: event.context, password: event.password, email: event.email);
+        context: event.context,
+        password: event.password,
+        email: event.email,
+      );
       log('Addedddd');
-      await UserAuth.addUser();
+      await UserAuth.addUser(
+        event.password,
+      );
       emit(state);
     });
   }

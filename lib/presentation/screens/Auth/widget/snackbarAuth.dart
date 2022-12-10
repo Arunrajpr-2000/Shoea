@@ -7,7 +7,7 @@ class Utils {
       {String? text, Color color = Colors.white, required context}) {
     if (text == null) return;
     final snackBar = SnackBar(
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 3),
       content: Text(
         text,
         style: TextStyle(color: Colors.black),

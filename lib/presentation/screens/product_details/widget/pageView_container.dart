@@ -3,10 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shoea_app/core/color/colors.dart';
 
 class PageViewWidget extends StatelessWidget {
-  const PageViewWidget({
+  PageViewWidget({
     Key? key,
+    required this.productimage,
   }) : super(key: key);
 
+  List<dynamic>? productimage;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,23 +17,21 @@ class PageViewWidget extends StatelessWidget {
         color: whiteColor,
         //borderRadius: BorderRadius.circular(20)
       ),
-      child: PageView(
+      child: PageView.builder(
+        itemCount: productimage!.length,
         scrollDirection: Axis.horizontal,
-        children: [
-          Image.network(
-            'https://rukminim1.flixcart.com/image/832/832/xif0q/shoe/u/s/3/-original-imaggcyckpkgqvfp.jpeg?q=70',
-            fit: BoxFit.contain,
-          ),
-          Image.network(
-            'https://rukminim1.flixcart.com/image/832/832/xif0q/shoe/d/u/v/-original-imaggcyc5tzhrsej.jpeg?q=70',
-            fit: BoxFit.contain,
-          ),
-          Image.network(
-            'https://rukminim1.flixcart.com/image/832/832/xif0q/shoe/i/h/z/-original-imaggcycbbxxhkup.jpeg?q=70',
-            fit: BoxFit.contain,
-          )
-        ],
+        itemBuilder: (context, index) {
+          return productimage![index] == null
+              ? Text("Unable to Load")
+              : Image.network(productimage![index]);
+        },
       ),
     );
   }
 }
+
+
+  // Image.network(
+  //           'https://rukminim1.flixcart.com/image/832/832/xif0q/shoe/u/s/3/-original-imaggcyckpkgqvfp.jpeg?q=70',
+  //           fit: BoxFit.contain,
+  //         ),

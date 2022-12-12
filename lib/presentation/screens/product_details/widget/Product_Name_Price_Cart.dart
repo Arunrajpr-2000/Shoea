@@ -69,6 +69,7 @@ class ProductNamePriceCart extends StatelessWidget {
               onPressed: () {
                 BlocProvider.of<CartBloc>(context).add(AddtoCart(
                     cartModel: CartModel(
+                        // totalcart: double.parse(productprice),
                         orderquantity: int.parse(count),
                         size: productsize,
                         cartprice: double.parse(productprice),

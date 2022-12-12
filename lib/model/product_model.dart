@@ -4,8 +4,7 @@ class Product {
   final double price;
   final List size;
   final String id;
-
-  final num quantity;
+  final int quantity;
   final List images;
   Product({
     required this.size,

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,10 +9,12 @@ import 'package:shoea_app/Application/Bloc/CartBloc/cart_bloc.dart';
 import 'package:shoea_app/Application/Provider/google_signIn.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shoea_app/presentation/screens/Auth/auth_page.dart';
+// import 'package:http/http.dart' as http;
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  HttpOverrides.global = MyHttpOverrides();
   runApp(const MyApp());
 }
 
@@ -39,11 +43,22 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               title: 'Flutter E-Commerce',
               theme: ThemeData(
+                unselectedWidgetColor: Colors.white,
+                // disabledColor: Colors.blue,
                 primarySwatch: Colors.blue,
               ),
               home: LoginStream(),
             ));
       },
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

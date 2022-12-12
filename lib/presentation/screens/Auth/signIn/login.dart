@@ -155,7 +155,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   k20height,
-                  GestureDetector(
+                  PaymentMethodsTile(
                     onTap: () async {
                       final provider = Provider.of<GoogleSignInProvider>(
                           context,
@@ -181,11 +181,9 @@ class LoginScreen extends StatelessWidget {
                       // await docUser.set(map);
                       // log('new user created n added to databse');
                     },
-                    child: const PaymentMethodsTile(
-                      ImageUrl:
-                          'https://play-lh.googleusercontent.com/6UgEjh8Xuts4nwdWzTnWH8QtLuHqRMUB7dp24JYVE2xcYzq4HA8hFfcAbU-R-PC_9uA1',
-                      Title: 'Sign in With Google',
-                    ),
+                    ImageUrl:
+                        'https://play-lh.googleusercontent.com/6UgEjh8Xuts4nwdWzTnWH8QtLuHqRMUB7dp24JYVE2xcYzq4HA8hFfcAbU-R-PC_9uA1',
+                    Title: 'Sign in With Google',
                   )
                 ],
               ),

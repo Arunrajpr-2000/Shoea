@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shoea_app/core/color/colors.dart';
+import 'package:shoea_app/model/product_model.dart';
 
 import '../../product_details/product_View.dart';
 
@@ -27,16 +28,25 @@ class InSideCategory extends StatelessWidget {
         backgroundColor: Colors.black,
         title: Text(brandName.toString()),
       ),
-      body: StreamBuilder<QuerySnapshot>(
+      body: StreamBuilder<List<Product>>(
           stream: FirebaseFirestore.instance
               .collection('categories')
               .doc(brandName)
               .collection(brandName)
-              .snapshots(),
+              .snapshots()
+              .map((snapshot) => snapshot.docs
+                  .map((e) => Product.fromJson(e.data()))
+                  .toList()),
+
+          //  FirebaseFirestore.instance
+          //     .collection('categories')
+          //     .doc(brandName)
+          //     .collection(brandName)
+          //     .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return GridView.builder(
-                itemCount: snapshot.data!.docs.length,
+                itemCount: snapshot.data!.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   childAspectRatio: 0.80,
                   crossAxisCount: 2,
@@ -44,28 +54,31 @@ class InSideCategory extends StatelessWidget {
                   mainAxisSpacing: 1.0,
                 ),
                 itemBuilder: (context, index) {
-                  QueryDocumentSnapshot documentSnapshot =
-                      snapshot.data!.docs[index];
-                  String id = snapshot.data!.docs[index].id;
+                  List<Product> documentSnapshot = snapshot.data!;
+                  // QueryDocumentSnapshot documentSnapshot =
+                  //     snapshot.data!.docs[index];
+                  String id = documentSnapshot[index].id;
+                  //snapshot.data!.docs[index].id;
                   log(id);
-                  if (id == documentSnapshot['name']) {
+                  if (id == documentSnapshot[index].name) {
                     return GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => ProductView(
                                   productname:
-                                      documentSnapshot['name'].toString(),
-                                  productdescription:
-                                      documentSnapshot['description']
-                                          .toString(),
+                                      documentSnapshot[index].name.toString(),
+                                  productdescription: documentSnapshot[index]
+                                      .description
+                                      .toString(),
                                   productprice:
-                                      documentSnapshot['price'].toString(),
-                                  productquantiy:
-                                      documentSnapshot['quantity'].toString(),
+                                      documentSnapshot[index].price.toString(),
+                                  productquantiy: documentSnapshot[index]
+                                      .quantity
+                                      .toString(),
                                   productsize:
-                                      documentSnapshot['size'].toList(),
-                                  productid: documentSnapshot['docname'],
-                                  productimage: documentSnapshot['image'],
+                                      documentSnapshot[index].size.toList(),
+                                  productid: documentSnapshot[index].id,
+                                  productimage: documentSnapshot[index].images,
                                 )));
                       },
                       child: Container(
@@ -96,7 +109,7 @@ class InSideCategory extends StatelessWidget {
                             Container(
                               //margin: EdgeInsets.all(10),
                               child: Image.network(
-                                documentSnapshot['image'][0],
+                                documentSnapshot[index].images[0],
                                 width: 120.w,
                                 height: 120.h,
                               ),
@@ -105,7 +118,7 @@ class InSideCategory extends StatelessWidget {
                               padding: EdgeInsets.only(bottom: 8),
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                documentSnapshot['name'],
+                                documentSnapshot[index].name,
                                 maxLines: 1,
                                 style: TextStyle(
                                     overflow: TextOverflow.ellipsis,
@@ -118,7 +131,7 @@ class InSideCategory extends StatelessWidget {
                               padding: EdgeInsets.only(bottom: 8),
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                "₹ ${documentSnapshot['price']}",
+                                "₹ ${documentSnapshot[index].price}",
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 17.sp,

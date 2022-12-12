@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shoea_app/core/constants/constants.dart';
@@ -6,13 +8,18 @@ import 'package:shoea_app/presentation/screens/payment/payment_screen.dart';
 import '../../core/color/colors.dart';
 
 class TotalPriceBottomWidget extends StatelessWidget {
-  const TotalPriceBottomWidget(
-      {Key? key, this.Title, this.totalPrice, this.selectPayments})
+  TotalPriceBottomWidget(
+      {Key? key,
+      this.Title,
+      required this.onTap,
+      required this.totalPrice,
+      this.selectPayments})
       : super(key: key);
 
   final String? Title;
-  final String? totalPrice;
+  final String totalPrice;
   final String? selectPayments;
+  void Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,8 +56,7 @@ class TotalPriceBottomWidget extends StatelessWidget {
           ),
           k20height,
           GestureDetector(
-            onTap: () => Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => const PaymentScreen())),
+            onTap: onTap,
             child: Container(
               width: 300,
               height: 50,

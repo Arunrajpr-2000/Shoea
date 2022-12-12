@@ -3,12 +3,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shoea_app/core/color/colors.dart';
 
 class PaymentMethodsTile extends StatelessWidget {
-  const PaymentMethodsTile(
-      {Key? key, this.Title, this.ImageUrl, this.Radiobutton})
+  PaymentMethodsTile(
+      {Key? key,
+      this.Title,
+      this.ImageUrl,
+      this.Radiobutton,
+      required this.onTap})
       : super(key: key);
   final String? Title;
   final String? ImageUrl;
   final Widget? Radiobutton;
+  void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +22,8 @@ class PaymentMethodsTile extends StatelessWidget {
       child: SizedBox(
         width: 300.w,
         child: ListTile(
-            contentPadding: EdgeInsets.all(5),
+            onTap: onTap,
+            contentPadding: const EdgeInsets.all(5),
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
             leading: Container(
@@ -27,12 +33,12 @@ class PaymentMethodsTile extends StatelessWidget {
                   image:
                       DecorationImage(image: NetworkImage(ImageUrl.toString())),
                   borderRadius: BorderRadius.circular(10),
-                  color: Color(0xff35383F)),
+                  color: const Color(0xff35383F)),
             ),
-            tileColor: Color(0xff35383F),
+            tileColor: const Color(0xff35383F),
             title: Text(
               '$Title',
-              style: TextStyle(
+              style: const TextStyle(
                   color: whiteColor, fontWeight: FontWeight.bold, fontSize: 17),
             ),
             trailing: Radiobutton),

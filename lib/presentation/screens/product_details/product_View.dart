@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
+import 'package:shoea_app/presentation/screens/payment/payment_screen.dart';
 import 'package:shoea_app/presentation/widgets/quantity_widget.dart';
 
 import '../../widgets/Payment_stack_widget.dart';
@@ -63,6 +64,12 @@ class ProductView extends StatelessWidget {
           Align(
             alignment: Alignment.bottomCenter,
             child: TotalPriceBottomWidget(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => PaymentScreen(
+                          price: productprice.toString(),
+                        )));
+              },
               Title: 'Total cost',
               totalPrice: productprice.toString(),
               selectPayments: 'Payment',
@@ -106,46 +113,46 @@ class ProductView extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
           ),
-          // sizeAndQuantity(),
+          sizeAndQuantity(),
         ],
       ),
     );
   }
 
-  // Padding sizeAndQuantity() {
-  //   return Padding(
-  //     padding: const EdgeInsets.only(left: 20, right: 20),
-  //     child: Row(
-  //       mainAxisSize: MainAxisSize.min,
-  //       children: [
-  //         SizedBox(
-  //           width: 200,
-  //           height: 50,
-  //           child: ListView.separated(
-  //               scrollDirection: Axis.horizontal,
-  //               itemCount: shoesizes!.length,
-  //               separatorBuilder: (context, index) => k10width,
-  //               itemBuilder: (context, index) {
-  //                 return CircleAvatar(
-  //                     backgroundColor: const Color(0xff393A3F),
-  //                     radius: 25.r,
-  //                     child: Text(
-  //                       shoesizes![index].toString(),
-  //                       style: TextStyle(
-  //                         color: whiteColor,
-  //                         fontSize: 16.sp,
-  //                         fontWeight: FontWeight.bold,
-  //                       ),
-  //                     ));
-  //               }),
-  //         ),
-  //         QuantityWidget(
-  //           OnPressAdd: () {},
-  //           OnPressSub: () {},
-  //           Quantity: '1',
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
+  Padding sizeAndQuantity() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: 200,
+            height: 50,
+            child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemCount: productsize.length,
+                separatorBuilder: (context, index) => k10width,
+                itemBuilder: (context, index) {
+                  return CircleAvatar(
+                      backgroundColor: const Color(0xff393A3F),
+                      radius: 25.r,
+                      child: Text(
+                        productsize[index].toString(),
+                        style: TextStyle(
+                          color: whiteColor,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ));
+                }),
+          ),
+          QuantityWidget(
+            OnPressAdd: () {},
+            OnPressSub: () {},
+            Quantity: '1',
+          )
+        ],
+      ),
+    );
+  }
 }

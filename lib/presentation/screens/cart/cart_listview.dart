@@ -8,6 +8,7 @@ import 'package:shoea_app/Application/Bloc/CartBloc/cart_bloc.dart';
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
 import 'package:shoea_app/function/cart_fun.dart';
+import 'package:shoea_app/model/cart_model.dart';
 import 'package:shoea_app/presentation/widgets/quantity_widget.dart';
 
 class CartListView extends StatelessWidget {
@@ -23,17 +24,20 @@ class CartListView extends StatelessWidget {
   // final List<String>? Cartimage;
   // final List<String>? CartProductName;
   // final List<int>? CartProductPrice;
-
+  double total = 0;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CartBloc, CartState>(
       builder: (context, state) {
-        return StreamBuilder<QuerySnapshot>(
+        return StreamBuilder<List<CartModel>>(
             stream: FirebaseFirestore.instance
                 .collection('users')
                 .doc(email)
                 .collection('cart')
-                .snapshots(),
+                .snapshots()
+                .map((snapshot) => snapshot.docs
+                    .map((e) => CartModel.fromJson(e.data()))
+                    .toList()),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return ListView.separated(
@@ -41,8 +45,18 @@ class CartListView extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    QueryDocumentSnapshot documentSnapshot =
-                        snapshot.data!.docs[index];
+                    // QueryDocumentSnapshot documentSnapshot =
+                    //     snapshot.data!.docs[index];
+
+                    List<CartModel> documentsnapshot = snapshot.data!;
+
+                    final cartlist = snapshot.data;
+                    total = 0;
+                    for (var e in cartlist!) {
+                      total = total + e.cartprice;
+
+                      log(total.toString());
+                    }
                     return Row(
                       // mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -53,8 +67,8 @@ class CartListView extends StatelessWidget {
 
                           decoration: BoxDecoration(
                               image: DecorationImage(
-                                image:
-                                    NetworkImage(documentSnapshot['image'][0]),
+                                image: NetworkImage(
+                                    documentsnapshot[index].images[0]),
                                 fit: BoxFit.contain,
                               ),
                               color: whiteColor,
@@ -76,7 +90,7 @@ class CartListView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  documentSnapshot['name'],
+                                  documentsnapshot[index].name,
                                   // CartProductName![index],
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -86,7 +100,7 @@ class CartListView extends StatelessWidget {
                                 ),
                                 Text(
                                   // "₹5,939",
-                                  '₹ ${documentSnapshot['cartprice']}',
+                                  '₹ ${documentsnapshot[index].cartprice}',
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       color: whiteColor,
@@ -102,14 +116,19 @@ class CartListView extends StatelessWidget {
                           children: [
                             IconButton(
                                 onPressed: () {
-                                  DocumentReference documentReference =
-                                      FirebaseFirestore.instance
-                                          .collection('users')
-                                          .doc(email)
-                                          .collection('cart')
-                                          .doc(documentSnapshot['name']);
-                                  documentReference.delete().whenComplete(() =>
-                                      log("${documentSnapshot['name']} Deleted"));
+                                  // DocumentReference documentReference =
+                                  //     FirebaseFirestore.instance
+                                  //         .collection('users')
+                                  //         .doc(email)
+                                  //         .collection('cart')
+                                  //         .doc(documentsnapshot[index].name);
+                                  // documentReference.delete().whenComplete(() {}
+                                  // log(
+                                  //     "${documentSnapshot['name']} Deleted"),
+                                  // );
+
+                                  removeFromCart(
+                                      id: documentsnapshot[index].name);
                                 },
                                 icon: const Icon(
                                   Icons.delete,
@@ -117,13 +136,13 @@ class CartListView extends StatelessWidget {
                                 )),
                             QuantityWidget(
                               OnPressAdd: () {
-                                if (documentSnapshot['orderquantity'] > 0) {
+                                if (documentsnapshot[index].orderquantity > 0) {
                                   DocumentReference documentReference =
                                       FirebaseFirestore.instance
                                           .collection("users")
                                           .doc(email)
                                           .collection('cart')
-                                          .doc(documentSnapshot['docname']);
+                                          .doc(documentsnapshot[index].id);
 
                                   // dynamic cartprice =
                                   //     documentSnapshot['price'] *
@@ -132,25 +151,32 @@ class CartListView extends StatelessWidget {
                                   // var productsize;
                                   Map<String, dynamic> category = {
                                     'orderquantity':
-                                        documentSnapshot['orderquantity'] + 1,
-                                    "name": documentSnapshot['name'],
-                                    'docname': documentSnapshot['docname'],
-                                    'price': documentSnapshot['price'],
-                                    'quantity': documentSnapshot['quantity'],
+                                        documentsnapshot[index].orderquantity +
+                                            1,
+                                    // documentSnapshot['orderquantity'] + 1,
+                                    "name": documentsnapshot[index].name,
+                                    //documentSnapshot['name'],
+                                    'docname': documentsnapshot[index].id,
+                                    'price': documentsnapshot[index].price,
+                                    'quantity':
+                                        documentsnapshot[index].quantity,
                                     'description':
-                                        documentSnapshot['description'],
-                                    'size': documentSnapshot['size'],
-                                    'image': documentSnapshot['image'],
-                                    'cartprice': (documentSnapshot['price']) *
-                                        (documentSnapshot['orderquantity'] + 1)
+                                        documentsnapshot[index].description,
+                                    'size': documentsnapshot[index].size,
+                                    'image': documentsnapshot[index].images,
+                                    'cartprice': (documentsnapshot[index]
+                                            .price) *
+                                        (documentsnapshot[index].orderquantity +
+                                            1),
                                   };
 
                                   log('message cate ');
 
                                   documentReference
                                       .update(category)
-                                      .whenComplete(
-                                          () => log(' quantity updated'));
+                                      .whenComplete(() {
+                                    log(' quantity updated');
+                                  });
                                 }
 
                                 //  log(count.toString());
@@ -178,31 +204,39 @@ class CartListView extends StatelessWidget {
                                 //         documentSnapshot['image']))) as List<Product>;
                                 // log(state.cartModel[index].id.toString());
                               },
-                              Quantity:
-                                  documentSnapshot['orderquantity'].toString(),
+                              Quantity: documentsnapshot[index]
+                                  .orderquantity
+                                  .toString(),
+                              // documentSnapshot['orderquantity'].toString(),
                               OnPressSub: () {
-                                if (documentSnapshot['orderquantity'] > 1) {
+                                if (documentsnapshot[index].orderquantity > 1) {
                                   DocumentReference documentReference =
                                       FirebaseFirestore.instance
                                           .collection("users")
                                           .doc(email)
                                           .collection('cart')
-                                          .doc(documentSnapshot['docname']);
+                                          .doc(documentsnapshot[index].id);
 
                                   // var productsize;
                                   Map<String, dynamic> category = {
                                     'orderquantity':
-                                        documentSnapshot['orderquantity'] - 1,
-                                    "name": documentSnapshot['name'],
-                                    'docname': documentSnapshot['docname'],
-                                    'price': documentSnapshot['price'],
-                                    'quantity': documentSnapshot['quantity'],
+                                        documentsnapshot[index].orderquantity -
+                                            1,
+                                    // documentSnapshot['orderquantity'] + 1,
+                                    "name": documentsnapshot[index].name,
+                                    //documentSnapshot['name'],
+                                    'docname': documentsnapshot[index].id,
+                                    'price': documentsnapshot[index].price,
+                                    'quantity':
+                                        documentsnapshot[index].quantity,
                                     'description':
-                                        documentSnapshot['description'],
-                                    'size': documentSnapshot['size'],
-                                    'image': documentSnapshot['image'],
-                                    'cartprice': (documentSnapshot['price']) *
-                                        (documentSnapshot['orderquantity'] - 1)
+                                        documentsnapshot[index].description,
+                                    'size': documentsnapshot[index].size,
+                                    'image': documentsnapshot[index].images,
+                                    'cartprice': (documentsnapshot[index]
+                                            .price) *
+                                        (documentsnapshot[index].orderquantity -
+                                            1)
                                   };
 
                                   log('message cate ');
@@ -240,7 +274,7 @@ class CartListView extends StatelessWidget {
                     );
                   },
                   // itemCount: Cartimage!.length,
-                  itemCount: snapshot.data!.docs.length,
+                  itemCount: snapshot.data!.length,
                 );
               } else {
                 return const Align(

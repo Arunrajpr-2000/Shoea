@@ -5,13 +5,16 @@ class CartModel {
   final List size;
   final String id;
   int orderquantity = 1;
+
   double cartprice;
+  // double totalcart;
 
   final num quantity;
   final List images;
   CartModel(
       {required this.size,
       required this.id,
+      // required this.totalcart,
       required this.orderquantity,
       required this.name,
       required this.description,
@@ -28,10 +31,12 @@ class CartModel {
         'size': size,
         'docname': id,
         'orderquantity': orderquantity,
-        'cartprice': cartprice
+        'cartprice': cartprice,
+        // 'totalcart': totalcart
       };
 
   static CartModel fromJson(Map<String, dynamic> json) => CartModel(
+      // totalcart: json['totalcart'],
       orderquantity: json['orderquantity'],
       cartprice: json['cartprice'],
       name: json['name'],

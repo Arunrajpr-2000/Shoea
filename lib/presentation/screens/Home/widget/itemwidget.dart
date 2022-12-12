@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shoea_app/model/product_model.dart';
 import 'package:shoea_app/presentation/screens/product_details/product_View.dart';
 
 import '../../../../core/color/colors.dart';
@@ -23,16 +24,27 @@ class ItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<List<Product>>(
         stream: FirebaseFirestore.instance
             .collection('categories')
             .doc('popular')
             .collection('popular')
-            .snapshots(),
+            .snapshots()
+            .map((snapshot) =>
+                snapshot.docs.map((e) => Product.fromJson(e.data())).toList()),
+
+        // FirebaseFirestore.instance
+        //     .collection('categories')
+        //     .doc('popular')
+        //     .collection('popular')
+        //     .snapshots(),
+
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            // log(snapshot.data!.length.toString());
             return GridView.builder(
-              itemCount: snapshot.data!.docs.length,
+              itemCount: snapshot.data!.length,
+
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio: 0.80,
                 crossAxisCount: 2,
@@ -40,25 +52,29 @@ class ItemWidget extends StatelessWidget {
                 mainAxisSpacing: 1.0,
               ),
               itemBuilder: (context, index) {
-                QueryDocumentSnapshot documentSnapshot =
-                    snapshot.data!.docs[index];
-                String id = snapshot.data!.docs[index].id;
-                log(id);
+                List<Product> documentSnapshot = snapshot.data!;
+                // QueryDocumentSnapshot documentSnapshot =
+                //     snapshot.data!.docs[index];
+                // String id = snapshot.data!.docs[index].id;
+                // log(id);
 
                 return GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => ProductView(
-                              productname: documentSnapshot['name'].toString(),
-                              productdescription:
-                                  documentSnapshot['description'].toString(),
+                              productname:
+                                  documentSnapshot[index].name.toString(),
+                              productdescription: documentSnapshot[index]
+                                  .description
+                                  .toString(),
                               productprice:
-                                  documentSnapshot['price'].toString(),
+                                  documentSnapshot[index].price.toString(),
                               productquantiy:
-                                  documentSnapshot['quantity'].toString(),
-                              productsize: documentSnapshot['size'].toList(),
-                              productid: documentSnapshot['docname'],
-                              productimage: documentSnapshot['image'],
+                                  documentSnapshot[index].quantity.toString(),
+                              productsize:
+                                  documentSnapshot[index].size.toList(),
+                              productid: documentSnapshot[index].id,
+                              productimage: documentSnapshot[index].images,
                             )));
                   },
                   child: Container(
@@ -90,7 +106,7 @@ class ItemWidget extends StatelessWidget {
                         SizedBox(
                           //margin: EdgeInsets.all(10),
                           child: Image.network(
-                            documentSnapshot['image'][0],
+                            documentSnapshot[index].images[0],
                             width: 120.w,
                             height: 120.h,
                           ),
@@ -99,7 +115,7 @@ class ItemWidget extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 8),
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            documentSnapshot['name'],
+                            documentSnapshot[index].name.toString(),
                             style: TextStyle(
                                 overflow: TextOverflow.ellipsis,
                                 color: Colors.black,
@@ -111,7 +127,7 @@ class ItemWidget extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 8),
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "₹ ${documentSnapshot['price']}",
+                            "₹ ${documentSnapshot[index].price.toString()}",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 16.sp,

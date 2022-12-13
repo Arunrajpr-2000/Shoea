@@ -9,6 +9,7 @@ import 'package:shoea_app/Application/Bloc/CartBloc/cart_bloc.dart';
 import 'package:shoea_app/Application/Provider/google_signIn.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shoea_app/presentation/screens/Auth/auth_page.dart';
+
 // import 'package:http/http.dart' as http;
 
 Future main() async {
@@ -29,14 +30,14 @@ class MyApp extends StatelessWidget {
       builder: (context, _) {
         return MultiProvider(
             providers: [
-              BlocProvider<AuthBloc>(
-                create: (BuildContext context) => AuthBloc(),
-              ),
               ChangeNotifierProvider(
                 create: (context) => GoogleSignInProvider(),
               ),
+              BlocProvider<AuthBloc>(
+                create: (context) => AuthBloc(),
+              ),
               BlocProvider<CartBloc>(
-                create: (BuildContext context) => CartBloc(),
+                create: (context) => CartBloc(),
               ),
             ],
             child: MaterialApp(

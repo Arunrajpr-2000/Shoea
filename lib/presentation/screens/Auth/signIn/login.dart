@@ -13,6 +13,7 @@ import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
 import 'package:shoea_app/function/user_auth.dart';
 import 'package:shoea_app/presentation/screens/Auth/ForgotPassword/forgot_password.dart';
+import 'package:shoea_app/presentation/screens/Auth/signUp/SingUp_Screen.dart';
 import 'package:shoea_app/presentation/screens/payment/widget/paymet_method_tile_widget.dart';
 import 'package:shoea_app/presentation/widgets/textfield_container.dart';
 

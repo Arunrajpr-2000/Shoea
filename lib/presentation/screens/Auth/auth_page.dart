@@ -30,7 +30,7 @@ class LoginStream extends StatelessWidget {
           } else if (snapshot.hasData) {
             return MainScreen();
           } else {
-            return const LoginOrNot();
+            return LoginOrNot();
           }
         });
   }

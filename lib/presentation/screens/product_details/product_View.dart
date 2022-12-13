@@ -28,7 +28,7 @@ class ProductView extends StatelessWidget {
   final String? productprice;
   final List productimage;
 
-  final String? productdescription;
+  final String productdescription;
   final List productsize;
   final String? productquantiy;
   int count = 1;

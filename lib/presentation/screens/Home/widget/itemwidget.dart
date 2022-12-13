@@ -115,7 +115,7 @@ class ItemWidget extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 8),
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            documentSnapshot[index].name.toString(),
+                            documentSnapshot[index].name,
                             style: TextStyle(
                                 overflow: TextOverflow.ellipsis,
                                 color: Colors.black,
@@ -127,7 +127,7 @@ class ItemWidget extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 8),
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            "₹ ${documentSnapshot[index].price.toString()}",
+                            "₹ ${documentSnapshot[index].price}",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 16.sp,

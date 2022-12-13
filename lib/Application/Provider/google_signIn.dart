@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -43,11 +42,25 @@ class GoogleSignInProvider extends ChangeNotifier {
         Map<String, dynamic> map = {
           'name': name,
           'email': email,
-          'password': 'Google SignIn',
           'phonenum': phonenumber,
           'profileimage': profileimage,
+          'password': 'google signin'
         };
-        await docUser.set(map);
+        await docUser.set(map).whenComplete(() async {
+          final docUser = FirebaseFirestore.instance
+              .collection('users')
+              .doc(email)
+              .collection('userdetails')
+              .doc('userdetails');
+          List<String> Cart = [];
+          Map<String, dynamic> map = {
+            'email': email,
+            'name': name,
+            'phonenum': '',
+          };
+          await docUser.set(map);
+          log('new user created n added to databse');
+        });
 
         // inside docEmail creating a collection
 

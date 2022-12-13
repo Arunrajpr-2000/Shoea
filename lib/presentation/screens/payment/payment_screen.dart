@@ -1,11 +1,16 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
+import 'package:shoea_app/function/address_fun.dart';
+import 'package:shoea_app/function/cart_fun.dart';
+import 'package:shoea_app/model/address_model.dart';
 import 'package:shoea_app/presentation/screens/MainPage/mainpage.dart';
+import 'package:shoea_app/presentation/widgets/textfield_container.dart';
 
 import '../../widgets/Payment_stack_widget.dart';
 import 'widget/paymet_method_tile_widget.dart';
@@ -21,6 +26,14 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   Razorpay razorpay = Razorpay();
+  TextEditingController localareaController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+
+  TextEditingController stateController = TextEditingController();
+  TextEditingController districtController = TextEditingController();
+
+  TextEditingController pincodeController = TextEditingController();
+
   int _value = 1;
 
   @override
@@ -94,54 +107,153 @@ class _PaymentScreenState extends State<PaymentScreen> {
             child: Column(
               children: [
                 k10height,
-                Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Container(
-                    width: double.infinity,
-                    height: 120,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: const Color(0xff35383F)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        k20height,
-                        const Padding(
-                          padding: EdgeInsets.only(left: 20),
-                          child: Text(
-                            'Delivery Address',
-                            style: TextStyle(
-                                color: whiteColor,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold),
+                StreamBuilder<List<AddressModel>>(
+                    stream: FirebaseFirestore.instance
+                        .collection('users')
+                        .doc(email)
+                        .collection('Address')
+                        .snapshots()
+                        .map((snapshot) => snapshot.docs
+                            .map((e) => AddressModel.fromJson(e.data()))
+                            .toList()),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        List<AddressModel> Address = snapshot.data!;
+                        return Padding(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          child: Container(
+                            width: double.infinity,
+                            height: 150,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: const Color(0xff35383F)),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                k20height,
+                                const Padding(
+                                  padding: EdgeInsets.only(left: 20),
+                                  child: Text(
+                                    'Delivery Address',
+                                    style: TextStyle(
+                                        color: whiteColor,
+                                        fontSize: 17,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                k10height,
+                                ListTile(
+                                  leading: const Icon(
+                                    Icons.location_pin,
+                                    color: whiteColor,
+                                  ),
+                                  title: Address.isEmpty ||
+                                          Address[0].localArea == ''
+                                      ? const Text(
+                                          'Add Address',
+
+                                          // AddressModel(localArea: 'Brototype', id: 'Address', state: 'kerala', pincode: '678508', city: 'kochi'),
+                                          // 'Brototype ,InfoPark, Kochi 678508',
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: whiteColor,
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold),
+                                        )
+                                      : SizedBox(
+                                          height: 60,
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  '${Address[0].localArea} , ${Address[0].city}',
+                                                  maxLines: 1,
+                                                  style: TextStyle(
+                                                      color: whiteColor,
+                                                      fontSize: 16,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                // Text(
+                                                //   Address[0].city,
+                                                //   maxLines: 1,
+                                                //   style: TextStyle(
+                                                //       color: whiteColor,
+                                                //       fontSize: 16,
+                                                //       overflow:
+                                                //           TextOverflow.ellipsis,
+                                                //       fontWeight:
+                                                //           FontWeight.bold),
+                                                // ),
+                                                Text(
+                                                  '${Address[0].district} , ${Address[0].state}',
+                                                  maxLines: 1,
+                                                  style: TextStyle(
+                                                      color: whiteColor,
+                                                      fontSize: 16,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                // Text(
+                                                //   Address[0].state,
+                                                //   maxLines: 1,
+                                                //   style: TextStyle(
+                                                //       color: whiteColor,
+                                                //       fontSize: 16,
+                                                //       overflow:
+                                                //           TextOverflow.ellipsis,
+                                                //       fontWeight:
+                                                //           FontWeight.bold),
+                                                // ),
+                                                Text(
+                                                  Address[0].pincode,
+                                                  maxLines: 1,
+                                                  style: TextStyle(
+                                                      color: whiteColor,
+                                                      fontSize: 16,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                  trailing: '' == ''
+                                      ? IconButton(
+                                          onPressed: () {
+                                            addAddressMethod(context);
+                                          },
+                                          icon: const Icon(
+                                            Icons.add_location_alt_sharp,
+                                            color: whiteColor,
+                                          ))
+                                      : IconButton(
+                                          onPressed: () {},
+                                          icon: const Icon(
+                                            Icons.edit,
+                                            color: whiteColor,
+                                          )),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        k10height,
-                        ListTile(
-                          leading: const Icon(
-                            Icons.location_pin,
-                            color: whiteColor,
+                        );
+                      } else {
+                        return const Align(
+                          alignment: FractionalOffset.center,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
                           ),
-                          title: const Text(
-                            'Brototype ,InfoPark, Kochi 678508',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: whiteColor,
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          trailing: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.edit,
-                                color: whiteColor,
-                              )),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                        );
+                      }
+                    }),
                 k20height,
                 Text(
                   'Select the payment method you want to use.',
@@ -240,5 +352,96 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ],
       ),
     );
+  }
+
+  Future<dynamic> addAddressMethod(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: whiteColor,
+            scrollable: true,
+            title: const Text(
+              'Add Address',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: ScaffoldBgcolor),
+            ),
+            content: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Form(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    TextfieldContainer(
+                      Controller: localareaController,
+                      hinttext: 'Local Area',
+                      leadingIcon: const Icon(
+                        Icons.not_listed_location_rounded,
+                        color: whiteColor,
+                      ),
+                    ),
+                    k30height,
+                    TextfieldContainer(
+                      Controller: cityController,
+                      hinttext: 'City',
+                      leadingIcon: const Icon(
+                        Icons.not_listed_location_rounded,
+                        color: whiteColor,
+                      ),
+                    ),
+                    k30height,
+                    TextfieldContainer(
+                      Controller: districtController,
+                      hinttext: 'District',
+                      leadingIcon: const Icon(
+                        Icons.not_listed_location_rounded,
+                        color: whiteColor,
+                      ),
+                    ),
+                    k30height,
+                    TextfieldContainer(
+                      Controller: stateController,
+                      hinttext: 'State',
+                      leadingIcon: const Icon(
+                        Icons.not_listed_location_rounded,
+                        color: whiteColor,
+                      ),
+                    ),
+                    k30height,
+                    TextfieldContainer(
+                      keyboardType: TextInputType.number,
+                      Controller: pincodeController,
+                      hinttext: 'Pincode',
+                      leadingIcon: const Icon(
+                        Icons.not_listed_location_rounded,
+                        color: whiteColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              Center(
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(ScaffoldBgcolor)),
+                    onPressed: () {
+                      addAddressFun(
+                          addressModel: AddressModel(
+                              district: districtController.text,
+                              localArea: localareaController.text,
+                              id: 'Address',
+                              state: stateController.text,
+                              pincode: pincodeController.text,
+                              city: cityController.text));
+                      Navigator.of(context).pop();
+                    },
+                    child: Text("Submit")),
+              ),
+            ],
+          );
+        });
   }
 }

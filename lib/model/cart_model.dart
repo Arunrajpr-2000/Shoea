@@ -7,7 +7,6 @@ class CartModel {
   int orderquantity = 1;
 
   double cartprice;
-  // double totalcart;
 
   final num quantity;
   final List images;

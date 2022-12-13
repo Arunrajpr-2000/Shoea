@@ -5,18 +5,22 @@ import 'package:shoea_app/core/color/colors.dart';
 class TextfieldContainer extends StatelessWidget {
   TextfieldContainer(
       {Key? key,
-      required this.Controller,
+      this.Controller,
       this.hinttext,
       this.TrailingIcon,
       this.validator,
+      this.initialValue,
       this.errorText,
+      this.keyboardType,
       this.leadingIcon,
       this.OnChange})
       : super(key: key);
 
-  TextEditingController Controller = TextEditingController();
+  TextEditingController? Controller = TextEditingController();
   String? hinttext, errorText;
   Icon? leadingIcon;
+  String? initialValue;
+  TextInputType? keyboardType;
   Icon? TrailingIcon;
   void OnChange;
 
@@ -33,6 +37,8 @@ class TextfieldContainer extends StatelessWidget {
       child: ListTile(
         leading: leadingIcon,
         title: TextFormField(
+          initialValue: initialValue,
+          keyboardType: keyboardType,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: validator,
           onChanged: (value) => OnChange,

@@ -2,12 +2,17 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shoea_app/Application/Bloc/AuthBloc/auth_bloc.dart';
+import 'package:shoea_app/Application/Bloc/Authbloc/auth_bloc.dart';
+
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
+import 'package:shoea_app/presentation/screens/Auth/signIn/login.dart';
+
 import 'package:shoea_app/presentation/widgets/textfield_container.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -166,25 +171,25 @@ class SignUpScreen extends StatelessWidget {
                         // Navigator.of(context).pushReplacement(MaterialPageRoute(
                         //   builder: (context) => LoginScreen(),
                         // ));
-                        final emailuser =
-                            FirebaseAuth.instance.currentUser!.email;
+                        // final emailuser =
+                        //     FirebaseAuth.instance.currentUser!.email;
 
-                        final passwords = FirebaseAuth.instance.currentUser!
-                            .updatePassword(_passwordController.text);
+                        // final passwords = FirebaseAuth.instance.currentUser!
+                        //     .updatePassword(_passwordController.text);
 
-                        log(emailuser.toString());
+                        // log(emailuser.toString());
 
-                        final docUser = FirebaseFirestore.instance
-                            .collection('users')
-                            .doc(emailuser);
-                        List<String> Cart = [];
-                        Map<String, dynamic> map = {
-                          'email': emailuser,
-                          'passsword': _passwordController.text,
-                        };
-                        await docUser.set(map);
+                        // final docUser = FirebaseFirestore.instance
+                        //     .collection('users')
+                        //     .doc(emailuser);
+                        // List<String> Cart = [];
+                        // Map<String, dynamic> map = {
+                        //   'email': emailuser,
+                        //   'passsword': _passwordController.text,
+                        // };
+                        // await docUser.set(map);
 
-                        log('new user created n added to databse');
+                        // log('new user created n added to databse');
                       },
                       child: Container(
                         width: 300,
@@ -205,27 +210,38 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     k20height,
                     GestureDetector(
-                      onTap: () {
-                        BlocProvider.of<AuthBloc>(context).add(Toggle());
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Already have an account?",
-                            style: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            " Sign In",
-                            style: TextStyle(
-                                color: whiteColor,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                      onTap: () {},
+                      child: GestureDetector(
+                        onTap: () {
+                          // context.read<AuthBloc>().add(Toggle());
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute<void>(
+                          //     builder: (BuildContext context) => LoginScreen(),
+                          //   ),
+                          // );
+
+                          BlocProvider.of<AuthBloc>(context).add(Toggle());
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Already have an account?",
+                              style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              " Sign In",
+                              style: TextStyle(
+                                  color: whiteColor,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],

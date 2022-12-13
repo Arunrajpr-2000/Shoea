@@ -3,7 +3,10 @@ part of 'auth_bloc.dart';
 @immutable
 abstract class AuthEvent {}
 
-class Toggle extends AuthEvent {}
+class Toggle extends AuthEvent {
+  // Toggle({required this.context});
+  // final context;
+}
 
 class AuthLogin extends AuthEvent {
   AuthLogin(

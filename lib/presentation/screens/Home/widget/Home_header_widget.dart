@@ -4,9 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shoea_app/core/color/colors.dart';
-import 'package:shoea_app/presentation/screens/Home/home_screen.dart';
+// import 'package:shoea_app/presentation/screens/Home/home_screen.dart';
 import 'package:shoea_app/presentation/screens/Home/widget/inside_category.dart';
-import 'package:shoea_app/presentation/screens/Productcategorie/nike/nike_screen.dart';
+import 'package:shoea_app/presentation/screens/search/search_screen.dart';
+// import 'package:shoea_app/presentation/screens/Productcategorie/nike/nike_screen.dart';
 import 'package:shoea_app/presentation/screens/settings/setting_screen.dart';
 import 'package:shoea_app/presentation/widgets/headerTile.dart';
 import 'package:shoea_app/presentation/widgets/textfield_container.dart';
@@ -34,8 +35,10 @@ class HomeScreenHeaderWidget extends StatelessWidget {
             TrailingButton: [
               IconButton(
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const SettingScreen()));
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => ScreenSearch()
+                          //SettingScreen()
+                          ));
                 },
                 icon: const Icon(
                   Icons.settings_suggest,
@@ -49,20 +52,12 @@ class HomeScreenHeaderWidget extends StatelessWidget {
           child: SizedBox(
             width: double.infinity,
             child: TextfieldContainer(
-              // OnChange: () {
-              //   return Text('data');
-              // },
               Controller: searchController,
               leadingIcon: const Icon(
                 Icons.search,
                 color: Colors.grey,
               ),
-
               hinttext: 'Looking For shoes',
-              // TrailingIcon: const Icon(
-              //   Icons.tune,
-              //   color: Colors.grey,
-              // ),
             ),
           ),
         ),
@@ -83,8 +78,6 @@ class HomeScreenHeaderWidget extends StatelessWidget {
             ],
           ),
         ),
-        // k10height,
-        // CircleAvatarListView(),
         k10height,
         SizedBox(
           height: 100.h,
@@ -125,73 +118,6 @@ class HomeScreenHeaderWidget extends StatelessWidget {
                     ),
                   );
                 }
-
-                // children: [
-                //   k10width,
-                //   AllCircleAvatar(),
-                //   k10width,
-                //   CircleAvatarWidget(
-                //     Imagepath: Image.asset(
-                //       'asset/BrandImages/NikeLogo.png',
-                //       // 'asset/BrandImages/NikeLogo.png',
-                //       width: 60.w,
-                //       height: 60.h,
-                //       fit: BoxFit.contain,
-                //     ),
-                //     Ontap: () => Navigator.of(context).push(MaterialPageRoute(
-                //       builder: (context) => const NikeScreen(),
-                //     )),
-                //   ),
-                //   k10width,
-                //   CircleAvatarWidget(
-                //     Imagepath: Image.asset(
-                //       'asset/BrandImages/pumaLogo.png',
-                //       // 'asset/BrandImages/NikeLogo.png',
-                //       width: 60.w,
-                //       height: 60.h,
-                //       fit: BoxFit.contain,
-                //     ),
-                //     Ontap: () => Navigator.of(context).push(MaterialPageRoute(
-                //       builder: (context) => const NikeScreen(),
-                //     )),
-                //   ),
-                //   k10width,
-                //   CircleAvatarWidget(
-                //     Imagepath: Image.asset(
-                //       'asset/BrandImages/Reebook.png',
-                //       width: 35.w,
-                //       height: 35.h,
-                //       fit: BoxFit.contain,
-                //     ),
-                //     Ontap: () => Navigator.of(context).push(MaterialPageRoute(
-                //       builder: (context) => const NikeScreen(),
-                //     )),
-                //   ),
-                //   k10width,
-                //   CircleAvatarWidget(
-                //     Imagepath: Image.asset(
-                //       'asset/BrandImages/1689-removebg-preview (1).png',
-                //       width: 35.w,
-                //       height: 35.h,
-                //       fit: BoxFit.contain,
-                //     ),
-                //     Ontap: () => Navigator.of(context).push(MaterialPageRoute(
-                //       builder: (context) => const NikeScreen(),
-                //     )),
-                //   ),
-                //   k10width,
-                //   CircleAvatarWidget(
-                //     Imagepath: Image.asset(
-                //       'asset/BrandImages/Under-Armour-Logo-White-RED-removebg-preview.png',
-                //       width: 35.w,
-                //       height: 35.h,
-                //       fit: BoxFit.contain,
-                //     ),
-                //     Ontap: () => Navigator.of(context).push(MaterialPageRoute(
-                //       builder: (context) => const NikeScreen(),
-                //     )),
-                //   ),
-                // ],
               }),
         ),
       ],

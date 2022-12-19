@@ -57,9 +57,10 @@ class OrderPage extends StatelessWidget {
           child: SizedBox(
             width: 300.w,
             child: OrderListTile(
-                OrderTitle: OrderTitle,
-                Imageurl: Imageurl,
-                DeliveryStatus: DeliveryStatus),
+                // OrderTitle: OrderTitle,
+                // Imageurl: Imageurl,
+                // DeliveryStatus: DeliveryStatus
+                ),
           ),
         ),
       ],

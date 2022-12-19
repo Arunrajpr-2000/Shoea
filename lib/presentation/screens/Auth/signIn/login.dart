@@ -84,11 +84,13 @@ class LoginScreen extends StatelessWidget {
                         color: Colors.grey,
                         size: 20,
                       ),
-                      TrailingIcon: const Icon(
-                        Icons.remove_red_eye,
-                        color: Colors.grey,
-                        size: 20,
-                      )),
+                      TrailingIcon: IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.remove_red_eye,
+                            color: Colors.grey,
+                            size: 20,
+                          ))),
                   k20height,
                   GestureDetector(
                     onTap: () {

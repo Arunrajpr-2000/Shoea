@@ -1,27 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
-import 'package:shoea_app/function/cart_fun.dart';
 import 'package:shoea_app/function/profile_fun.dart';
 import 'package:shoea_app/model/profile_model.dart';
+import 'package:shoea_app/presentation/screens/profile%20Screen/textcontainer.dart';
 import 'package:shoea_app/presentation/widgets/headerTile.dart';
 import 'package:shoea_app/presentation/widgets/textfield_container.dart';
 
 class ScreenProfile extends StatelessWidget {
   ScreenProfile({Key? key}) : super(key: key);
 
-  final TextEditingController _emailController = TextEditingController();
+  // final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final user = FirebaseAuth.instance.currentUser!;
-
+  final email = FirebaseAuth.instance.currentUser!.email;
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) {
+        email;
         _nameController.text = user.displayName.toString();
         // _emailController.text = user.email.toString();
         _phoneController.text = user.phoneNumber.toString();
@@ -64,79 +64,25 @@ class ScreenProfile extends StatelessWidget {
                     backgroundImage: user.photoURL != null
                         ? NetworkImage(user.photoURL!)
                         : NetworkImage(
-                            'https://i.pinimg.com/564x/ef/90/8e/ef908e5a83305dcaaf5106e1e4269997.jpg'), //'https://images.unsplash.com/photo-1584670747417-594a9412fba5?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE2fHx8ZW58MHx8fHw%3D&w=1000&q=80'),
+                            'https://i.pinimg.com/564x/ef/90/8e/ef908e5a83305dcaaf5106e1e4269997.jpg'),
                     radius: 70,
                   ),
                   k20height,
-                  Container(
-                    width: 300.sp,
-                    height: 55.sp,
-                    decoration: BoxDecoration(
-                        color: const Color(0xff1F222B),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: ListTile(
-                      title: Text(
-                        profilelist[0].username.toString(),
-                        // user.displayName.toString(),
-                        style: TextStyle(color: whiteColor),
-                      ),
-                    ),
+                  Textcontainer(
+                    icon: Icons.person,
+                    text: profilelist[0].username.toString(),
                   ),
-                  Container(
-                    width: 300.sp,
-                    height: 55.sp,
-                    decoration: BoxDecoration(
-                        color: const Color(0xff1F222B),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: ListTile(
-                      title: Text(
-                        profilelist[0].useremail.toString(),
-                        //user.email.toString(),
-                        style: TextStyle(color: whiteColor),
-                      ),
-                    ),
+                  k20height,
+                  Textcontainer(
+                    icon: Icons.email,
+                    text: profilelist[0].useremail.toString(),
                   ),
-                  Container(
-                    width: 300.sp,
-                    height: 55.sp,
-                    decoration: BoxDecoration(
-                        color: const Color(0xff1F222B),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: ListTile(
-                      title: Text(
-                        profilelist[0].userphoneNo.toString(),
-                        //user.phoneNumber.toString(),
-                        style: TextStyle(color: whiteColor),
-                      ),
-                    ),
+                  k20height,
+                  Textcontainer(
+                    icon: Icons.call,
+                    text: profilelist[0].userphoneNo.toString(),
                   ),
-                  // TextfieldContainer(
-                  //   // initialValue: user.displayName.toString(),
-                  //   Controller: _nameController,
-                  //   hinttext: 'Enter Name',
-                  //   // TrailingIcon: const Icon(
-                  //   //   Icons.edit,
-                  //   //   color: whiteColor,
-                  //   // ),
-                  // ),
-                  // k20height,
-                  // TextfieldContainer(
-                  //     Controller: _emailController, hinttext: 'Enter Email'
-                  //     // TrailingIcon: const Icon(
-                  //     //   Icons.edit,
-                  //     //   color: whiteColor,
-                  //     // ),
-                  //     ),
-                  // k20height,
-                  // TextfieldContainer(
-                  //     Controller: _phoneController,
-                  //     hinttext: 'Add Mobile Number'
-                  //     //user.phoneNumber ?? '8129526855',
-                  //     // TrailingIcon: const Icon(
-                  //     //   Icons.edit,
-                  //     //   color: whiteColor,
-                  //     // ),
-                  //     ),
+                  k20height,
                 ],
               );
             } else {

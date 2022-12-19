@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shoea_app/Application/Provider/google_signIn.dart';
 import 'package:shoea_app/core/color/colors.dart';
+import 'package:shoea_app/presentation/screens/Auth/widget/snackbarAuth.dart';
 import 'package:shoea_app/presentation/screens/MainPage/mainpage.dart';
 import 'package:shoea_app/presentation/screens/settings/setting_screen.dart';
 import 'package:shoea_app/presentation/screens/Auth/signIn/login.dart';
@@ -67,6 +68,8 @@ class DrawerWidget extends StatelessWidget {
                   Provider.of<GoogleSignInProvider>(context, listen: false);
               provider.logout();
               await FirebaseAuth.instance.signOut();
+              // snackbar(context, 'Logoutted');
+              Utils.showSnackBar(context: context, text: 'Logoutted');
 
               // await FirebaseAuth.instance.signOut();
               // Navigator.of(context).pushReplacement(

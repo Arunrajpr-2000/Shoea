@@ -13,7 +13,7 @@ class ScreenHome extends StatelessWidget {
     return ListView(
       children: [
         HomeScreenHeaderWidget(searchController: searchController),
-        ItemWidget(),
+       const ItemWidget(),
       ],
     );
   }

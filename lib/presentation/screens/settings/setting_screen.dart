@@ -1,7 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shoea_app/core/color/colors.dart';
-import 'package:shoea_app/presentation/screens/Auth/signIn/login.dart';
 import 'package:shoea_app/presentation/widgets/drawer_widget.dart';
 import 'package:shoea_app/presentation/widgets/list_tile_widget.dart';
 
@@ -24,18 +23,27 @@ class SettingScreen extends StatelessWidget {
       drawer: DrawerWidget(),
       body: Column(
         children: [
+          // ListTileWidget(
+          //   IconColor: whiteColor,
+          //   LeadIcon: Icons.notifications,
+          //   Title: 'Notification',
+          //   Ontap: () {},
+          //   TrailingButton: Switch(
+          //       activeColor: Colors.red,
+          //       value: islight,
+          //       onChanged: (value) {
+          //         islight = value;
+          //       }),
+          // ),
           ListTileWidget(
-            IconColor: whiteColor,
-            LeadIcon: Icons.notifications,
-            Title: 'Notification',
-            Ontap: () {},
-            TrailingButton: Switch(
-                activeColor: Colors.red,
-                value: islight,
-                onChanged: (value) {
-                  islight = value;
-                }),
-          ),
+              IconColor: whiteColor,
+              LeadIcon: Icons.person,
+              Title: 'About',
+              Ontap: () {},
+              TrailingButton: Icon(
+                Icons.arrow_forward_ios,
+                color: whiteColor,
+              )),
           ListTileWidget(
               IconColor: whiteColor,
               LeadIcon: Icons.lock,
@@ -45,32 +53,36 @@ class SettingScreen extends StatelessWidget {
                 Icons.arrow_forward_ios,
                 color: whiteColor,
               )),
+          // ListTileWidget(
+          //     IconColor: whiteColor,
+          //     LeadIcon:
+          //         //Icons.contact_mail_rounded,
+          //         Icons.tips_and_updates,
+          //     Title: 'Help & support',
+          //     Ontap: () {},
+          //     TrailingButton: Icon(
+          //       Icons.arrow_forward_ios,
+          //       color: whiteColor,
+          //     )),
           ListTileWidget(
               IconColor: whiteColor,
               LeadIcon: Icons.info,
               Title: 'Terms & Conditions',
-              Ontap: () {},
+              Ontap: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) =>
+                        LicensePage(applicationName: 'Shoea E-Commerce'),
+                  )),
               TrailingButton: Icon(
                 Icons.arrow_forward_ios,
                 color: whiteColor,
               )),
           ListTileWidget(
               IconColor: whiteColor,
-              LeadIcon: Icons.groups,
+              LeadIcon: Icons.telegram,
               Title: 'Invite Friends',
-              Ontap: () {},
-              TrailingButton: Icon(
-                Icons.arrow_forward_ios,
-                color: whiteColor,
-              )),
-          ListTileWidget(
-              IconColor: whiteColor,
-              LeadIcon: Icons.logout,
-              Title: 'Logout',
-              Ontap: () async {
-                await FirebaseAuth.instance.signOut();
-                // Navigator.of(context).pushReplacement(
-                //     MaterialPageRoute(builder: (ctx1) => LoginScreen()));
+              Ontap: () {
+                // Share.share(
+                //     'hey! check out this new app \n https://play.google.com/store/apps/details?id=in.brototype.mixpod');
               },
               TrailingButton: Icon(
                 Icons.arrow_forward_ios,

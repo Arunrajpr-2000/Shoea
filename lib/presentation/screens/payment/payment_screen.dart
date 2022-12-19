@@ -7,8 +7,11 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
 import 'package:shoea_app/function/address_fun.dart';
-import 'package:shoea_app/function/cart_fun.dart';
+// import 'package:shoea_app/function/cart_fun.dart';
+import 'package:shoea_app/function/order_fun.dart';
 import 'package:shoea_app/model/address_model.dart';
+import 'package:shoea_app/model/order_product_model.dart';
+import 'package:shoea_app/model/product_model.dart';
 import 'package:shoea_app/presentation/screens/MainPage/mainpage.dart';
 import 'package:shoea_app/presentation/widgets/textfield_container.dart';
 
@@ -16,8 +19,9 @@ import '../../widgets/Payment_stack_widget.dart';
 import 'widget/paymet_method_tile_widget.dart';
 
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({Key? key, required this.price}) : super(key: key);
-
+  PaymentScreen({Key? key, required this.price, required this.product})
+      : super(key: key);
+  Product product;
   final String price;
 
   @override
@@ -48,6 +52,21 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     log(response.toString());
+    addorder(
+        orderModel: OrderedProduct(
+      cartprice: widget.product.price * 1,
+      description: widget.product.description,
+      images: widget.product.images,
+      isCanceled: false,
+      name: widget.product.name,
+      isDelivered: false,
+      orderquantity: 1,
+      price: widget.product.price,
+      size: widget.product.size,
+      id: widget.product.name,
+    ));
+    Navigator.of(context).pop();
+
     // verifyS
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(response.toString())));
@@ -345,7 +364,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 }
               },
               Title: 'Total cost',
-              totalPrice: widget.price,
+              totalPrice: widget.product.price.toString(),
               selectPayments: 'Confirm Payment',
             ),
           )

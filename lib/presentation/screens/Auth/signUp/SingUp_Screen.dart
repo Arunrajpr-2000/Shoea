@@ -109,11 +109,13 @@ class SignUpScreen extends StatelessWidget {
                           color: Colors.grey,
                           size: 20,
                         ),
-                        TrailingIcon: Icon(
-                          Icons.visibility_off,
-                          color: Colors.grey,
-                          size: 20,
-                        )),
+                        TrailingIcon: IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.visibility_off,
+                              color: Colors.grey,
+                              size: 20,
+                            ))),
                     k20height,
                     TextfieldContainer(
                         validator: (value) {
@@ -131,11 +133,13 @@ class SignUpScreen extends StatelessWidget {
                           color: Colors.grey,
                           size: 20,
                         ),
-                        TrailingIcon: Icon(
-                          Icons.visibility_off,
-                          color: Colors.grey,
-                          size: 20,
-                        )),
+                        TrailingIcon: IconButton(
+                            onPressed: () {},
+                            icon: Icon(
+                              Icons.visibility_off,
+                              color: Colors.grey,
+                              size: 20,
+                            ))),
                     k20height,
                     GestureDetector(
                       onTap: () async {

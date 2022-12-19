@@ -1,3 +1,5 @@
+// import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shoea_app/core/color/colors.dart';
@@ -13,7 +15,7 @@ class TextfieldContainer extends StatelessWidget {
       this.errorText,
       this.keyboardType,
       this.leadingIcon,
-      this.OnChange})
+      this.onChanged})
       : super(key: key);
 
   TextEditingController? Controller = TextEditingController();
@@ -21,8 +23,10 @@ class TextfieldContainer extends StatelessWidget {
   Icon? leadingIcon;
   String? initialValue;
   TextInputType? keyboardType;
-  Icon? TrailingIcon;
-  void OnChange;
+  IconButton? TrailingIcon;
+
+  // void OnChange;
+  void Function(String)? onChanged;
 
   String? Function(String?)? validator;
 
@@ -41,7 +45,7 @@ class TextfieldContainer extends StatelessWidget {
           keyboardType: keyboardType,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: validator,
-          onChanged: (value) => OnChange,
+          onChanged: onChanged,
           style: const TextStyle(color: whiteColor),
           cursorColor: whiteColor,
           controller: Controller,

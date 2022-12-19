@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
+import 'package:shoea_app/model/product_model.dart';
 import 'package:shoea_app/presentation/screens/payment/payment_screen.dart';
 import 'package:shoea_app/presentation/widgets/quantity_widget.dart';
 
@@ -68,6 +69,14 @@ class ProductView extends StatelessWidget {
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => PaymentScreen(
                           price: productprice.toString(),
+                          product: Product(
+                              size: productsize,
+                              id: productid,
+                              name: productname.toString(),
+                              description: productdescription,
+                              price: double.parse(productprice.toString()),
+                              quantity: int.parse(productquantiy.toString()),
+                              images: productimage),
                         )));
               },
               Title: 'Total cost',

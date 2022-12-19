@@ -8,6 +8,7 @@ import 'package:shoea_app/Application/Bloc/Authbloc/auth_bloc.dart';
 import 'package:shoea_app/Application/Bloc/CartBloc/cart_bloc.dart';
 import 'package:shoea_app/Application/Provider/google_signIn.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shoea_app/application/Bloc/search/search_bloc.dart';
 import 'package:shoea_app/presentation/screens/Auth/auth_page.dart';
 
 // import 'package:http/http.dart' as http;
@@ -38,6 +39,9 @@ class MyApp extends StatelessWidget {
               ),
               BlocProvider<CartBloc>(
                 create: (context) => CartBloc(),
+              ),
+              BlocProvider<SearchBloc>(
+                create: (BuildContext context) => SearchBloc(),
               ),
             ],
             child: MaterialApp(

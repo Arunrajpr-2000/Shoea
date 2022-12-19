@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,6 +8,7 @@ import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
 import 'package:shoea_app/function/cart_fun.dart';
 import 'package:shoea_app/model/cart_model.dart';
+import 'package:shoea_app/presentation/screens/Auth/widget/snackbarAuth.dart';
 import 'package:shoea_app/presentation/widgets/quantity_widget.dart';
 
 class CartListView extends StatelessWidget {
@@ -116,19 +116,11 @@ class CartListView extends StatelessWidget {
                           children: [
                             IconButton(
                                 onPressed: () {
-                                  // DocumentReference documentReference =
-                                  //     FirebaseFirestore.instance
-                                  //         .collection('users')
-                                  //         .doc(email)
-                                  //         .collection('cart')
-                                  //         .doc(documentsnapshot[index].name);
-                                  // documentReference.delete().whenComplete(() {}
-                                  // log(
-                                  //     "${documentSnapshot['name']} Deleted"),
-                                  // );
-
                                   removeFromCart(
                                       id: documentsnapshot[index].name);
+                                  Utils.showSnackBar(
+                                      context: context,
+                                      text: 'Removed From Cart');
                                 },
                                 icon: const Icon(
                                   Icons.delete,

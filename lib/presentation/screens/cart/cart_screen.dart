@@ -89,10 +89,10 @@ class ScreenCart extends StatelessWidget {
                     final list = snapshot.data;
                     return TotalPriceBottomWidget(
                       onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => PaymentScreen(
-                                  price: total.toString(),
-                                )));
+                        // Navigator.of(context).push(MaterialPageRoute(
+                        //     builder: (context) => PaymentScreen(
+                        //           price: total.toString(),
+                        //         )));
                       },
                       Title: 'Total Cost',
                       selectPayments: 'Checkout',

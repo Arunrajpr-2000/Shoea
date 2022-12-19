@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ListTileWidget extends StatelessWidget {
-  const ListTileWidget({
+  ListTileWidget({
     Key? key,
     this.IconColor,
     this.TrailingButton,
@@ -14,7 +14,7 @@ class ListTileWidget extends StatelessWidget {
 
   final Color? IconColor;
   final String? Title;
-  final Function()? Ontap;
+  void Function()? Ontap;
   final Widget? TrailingButton;
 
   @override

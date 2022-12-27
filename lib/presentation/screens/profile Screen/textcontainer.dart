@@ -3,11 +3,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shoea_app/core/color/colors.dart';
 
 class Textcontainer extends StatelessWidget {
-  Textcontainer({Key? key, required this.text, required this.icon})
+  Textcontainer(
+      {Key? key,
+      required this.text,
+      this.icondata,
+      this.icons,
+      this.textcolor,
+      this.onTap})
       : super(key: key);
 
   String text;
-  IconData icon;
+  IconData? icondata;
+  Icon? icons;
+  Color? textcolor;
+  void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +27,17 @@ class Textcontainer extends StatelessWidget {
           color: const Color(0xff1F222B),
           borderRadius: BorderRadius.circular(10)),
       child: ListTile(
-        leading: Icon(
-          icon,
-          color: whiteColor,
-        ),
+        onTap: onTap,
+        leading: icons ??
+            Icon(
+              icondata,
+              color: whiteColor,
+            ),
         title: Text(
           text,
-          //profilelist[0].username.toString(),
-          // user.displayName.toString(),
-          style: TextStyle(color: whiteColor),
+          style: TextStyle(
+            color: textcolor ?? whiteColor,
+          ),
         ),
       ),
     );

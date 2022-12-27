@@ -12,7 +12,6 @@ import 'package:shoea_app/presentation/widgets/textfield_container.dart';
 class ScreenProfile extends StatelessWidget {
   ScreenProfile({Key? key}) : super(key: key);
 
-  // final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final user = FirebaseAuth.instance.currentUser!;
@@ -23,7 +22,6 @@ class ScreenProfile extends StatelessWidget {
       (timeStamp) {
         email;
         _nameController.text = user.displayName.toString();
-        // _emailController.text = user.email.toString();
         _phoneController.text = user.phoneNumber.toString();
       },
     );
@@ -41,7 +39,6 @@ class ScreenProfile extends StatelessWidget {
             if (snapshot.hasData) {
               List<ProfileModel> profilelist = snapshot.data!;
               return Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   HeaderTile(
                     Title: const Text(
@@ -53,7 +50,7 @@ class ScreenProfile extends StatelessWidget {
                         onPressed: () {
                           editprofileMethod(context);
                         },
-                        icon: Icon(Icons.edit),
+                        icon: const Icon(Icons.edit),
                       )
                     ],
                   ),
@@ -63,23 +60,23 @@ class ScreenProfile extends StatelessWidget {
                     backgroundColor: ScaffoldBgcolor,
                     backgroundImage: user.photoURL != null
                         ? NetworkImage(user.photoURL!)
-                        : NetworkImage(
+                        : const NetworkImage(
                             'https://i.pinimg.com/564x/ef/90/8e/ef908e5a83305dcaaf5106e1e4269997.jpg'),
                     radius: 70,
                   ),
                   k20height,
                   Textcontainer(
-                    icon: Icons.person,
+                    icondata: Icons.person,
                     text: profilelist[0].username.toString(),
                   ),
                   k20height,
                   Textcontainer(
-                    icon: Icons.email,
+                    icondata: Icons.email,
                     text: profilelist[0].useremail.toString(),
                   ),
                   k20height,
                   Textcontainer(
-                    icon: Icons.call,
+                    icondata: Icons.call,
                     text: profilelist[0].userphoneNo.toString(),
                   ),
                   k20height,
@@ -124,15 +121,6 @@ class ScreenProfile extends StatelessWidget {
                         color: whiteColor,
                       ),
                     ),
-                    // k20height,
-                    // TextfieldContainer(
-                    //   Controller: _emailController,
-                    //   hinttext: 'Enter Email',
-                    //   leadingIcon: const Icon(
-                    //     Icons.email,
-                    //     color: whiteColor,
-                    //   ),
-                    // ),
                     k20height,
                     TextfieldContainer(
                       keyboardType: TextInputType.number,
@@ -162,7 +150,7 @@ class ScreenProfile extends StatelessWidget {
                               userphoneNo: _phoneController.text));
                       Navigator.of(context).pop();
                     },
-                    child: Text("Submit")),
+                    child: const Text("Submit")),
               ),
             ],
           );

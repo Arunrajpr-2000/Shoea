@@ -13,25 +13,18 @@ class PageViewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 200.sp,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: whiteColor,
-        //borderRadius: BorderRadius.circular(20)
       ),
       child: PageView.builder(
         itemCount: productimage!.length,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
           return productimage![index] == null
-              ? Text("Unable to Load")
+              ? const Text("Unable to Load")
               : Image.network(productimage![index]);
         },
       ),
     );
   }
 }
-
-
-  // Image.network(
-  //           'https://rukminim1.flixcart.com/image/832/832/xif0q/shoe/u/s/3/-original-imaggcyckpkgqvfp.jpeg?q=70',
-  //           fit: BoxFit.contain,
-  //         ),

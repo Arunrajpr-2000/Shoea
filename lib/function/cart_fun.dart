@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:shoea_app/model/cart_model.dart';
-import 'package:shoea_app/model/product_model.dart';
 
 final email = FirebaseAuth.instance.currentUser!.email;
 

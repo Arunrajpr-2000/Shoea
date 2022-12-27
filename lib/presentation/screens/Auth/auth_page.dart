@@ -8,7 +8,7 @@ import 'package:shoea_app/presentation/screens/Auth/signIn/login.dart';
 import 'package:shoea_app/presentation/screens/Auth/signUp/SingUp_Screen.dart';
 
 class LoginStream extends StatelessWidget {
-  LoginStream({Key? key}) : super(key: key);
+  const LoginStream({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class LoginStream extends StatelessWidget {
           } else if (snapshot.hasData) {
             return MainScreen();
           } else {
-            return LoginOrNot();
+            return const LoginOrNot();
           }
         });
   }

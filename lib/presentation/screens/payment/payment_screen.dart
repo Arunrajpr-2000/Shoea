@@ -12,7 +12,6 @@ import 'package:shoea_app/function/order_fun.dart';
 import 'package:shoea_app/model/address_model.dart';
 import 'package:shoea_app/model/order_product_model.dart';
 import 'package:shoea_app/model/product_model.dart';
-import 'package:shoea_app/presentation/screens/MainPage/mainpage.dart';
 import 'package:shoea_app/presentation/widgets/textfield_container.dart';
 
 import '../../widgets/Payment_stack_widget.dart';
@@ -188,7 +187,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                 Text(
                                                   '${Address[0].localArea} , ${Address[0].city}',
                                                   maxLines: 1,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: whiteColor,
                                                       fontSize: 16,
                                                       overflow:
@@ -196,21 +195,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
-                                                // Text(
-                                                //   Address[0].city,
-                                                //   maxLines: 1,
-                                                //   style: TextStyle(
-                                                //       color: whiteColor,
-                                                //       fontSize: 16,
-                                                //       overflow:
-                                                //           TextOverflow.ellipsis,
-                                                //       fontWeight:
-                                                //           FontWeight.bold),
-                                                // ),
                                                 Text(
                                                   '${Address[0].district} , ${Address[0].state}',
                                                   maxLines: 1,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: whiteColor,
                                                       fontSize: 16,
                                                       overflow:
@@ -218,21 +206,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                                       fontWeight:
                                                           FontWeight.bold),
                                                 ),
-                                                // Text(
-                                                //   Address[0].state,
-                                                //   maxLines: 1,
-                                                //   style: TextStyle(
-                                                //       color: whiteColor,
-                                                //       fontSize: 16,
-                                                //       overflow:
-                                                //           TextOverflow.ellipsis,
-                                                //       fontWeight:
-                                                //           FontWeight.bold),
-                                                // ),
                                                 Text(
                                                   Address[0].pincode,
                                                   maxLines: 1,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: whiteColor,
                                                       fontSize: 16,
                                                       overflow:
@@ -282,16 +259,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       fontWeight: FontWeight.bold),
                 ),
                 k20height,
-                // Container(
-                //   height: 70,
-                //   decoration: BoxDecoration(
-                //       borderRadius: BorderRadius.circular(20),
-                //       color: Color(0xff35383F)),
-                // )
                 PaymentMethodsTile(
-                  onTap: () {
-                    //razorpay.open(options);
-                  },
+                  onTap: () {},
                   ImageUrl:
                       'https://yt3.ggpht.com/ytc/AMLnZu8hEuwIDjx39XqXih5os_s6PVzgsptnGb8Q1tkKvw=s900-c-k-c0x00ffffff-no-rj',
                   Title: 'RazorPay',
@@ -306,23 +275,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         });
                       }),
                 ),
-                // k20height,
-                // PaymentMethodsTile(
-                //   ImageUrl:
-                //       'https://play-lh.googleusercontent.com/6UgEjh8Xuts4nwdWzTnWH8QtLuHqRMUB7dp24JYVE2xcYzq4HA8hFfcAbU-R-PC_9uA1',
-                //   Title: 'GooglePay',
-                //   Radiobutton: Radio(
-                //       fillColor: MaterialStateProperty.resolveWith<Color>(
-                //           (Set<MaterialState> states) {
-                //         return whiteColor;
-                //       }),
-                //       activeColor: whiteColor,
-                //       value: 1,
-                //       groupValue: 0,
-                //       onChanged: (value) {
-                //         //selected value
-                //       }),
-                // ),
                 k20height,
                 PaymentMethodsTile(
                   onTap: () {},
@@ -352,15 +304,23 @@ class _PaymentScreenState extends State<PaymentScreen> {
             alignment: Alignment.bottomCenter,
             child: TotalPriceBottomWidget(
               onTap: () {
-                //  Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (context) => PaymentScreen(
-                //           price: '100',
-                //         )));
                 if (_value == 1) {
                   razorpay.open(options);
                 } else {
-                  Navigator.of(context).pop();
-                  // MaterialPageRoute(builder: (context) => MainScreen()));
+                  addorder(
+                      orderModel: OrderedProduct(
+                    cartprice: widget.product.price * 1,
+                    description: widget.product.description,
+                    images: widget.product.images,
+                    isCanceled: false,
+                    name: widget.product.name,
+                    isDelivered: false,
+                    orderquantity: 1,
+                    price: widget.product.price,
+                    size: widget.product.size,
+                    id: widget.product.name,
+                  ));
+                  cashonDelivery(context);
                 }
               },
               Title: 'Total cost',
@@ -371,6 +331,63 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ],
       ),
     );
+  }
+
+  Future<dynamic> cashonDelivery(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: whiteColor,
+            scrollable: true,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            title: const Text(
+              'Order Successfull',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: ScaffoldBgcolor),
+            ),
+            content: Padding(
+              padding: const EdgeInsets.all(7.0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  //crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.network(
+                      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgL54f8y2KvkViOnugSECHrjF6P0VazvrhZg&usqp=CAU',
+                      width: 150.w,
+                      height: 150.h,
+                    ),
+                    k20height,
+                    const Text(
+                      'For more details,\n check Delivery Status',
+                      //maxLines: 3,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: ScaffoldBgcolor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            actions: [
+              Center(
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.green[900])),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text("OK")),
+              ),
+            ],
+          );
+        });
   }
 
   Future<dynamic> addAddressMethod(BuildContext context) {
@@ -457,7 +474,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               city: cityController.text));
                       Navigator.of(context).pop();
                     },
-                    child: Text("Submit")),
+                    child: const Text("Submit")),
               ),
             ],
           );

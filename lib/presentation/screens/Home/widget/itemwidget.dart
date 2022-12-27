@@ -1,50 +1,29 @@
-import 'dart:developer';
+// import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shoea_app/core/snackbar/snackbarAuth.dart';
+import 'package:shoea_app/function/wishlist_fun.dart';
 import 'package:shoea_app/model/product_model.dart';
 import 'package:shoea_app/presentation/screens/product_details/product_View.dart';
+import 'package:shoea_app/presentation/screens/wishlist/widgets/wishlist_icon.dart';
 
 import '../../../../core/color/colors.dart';
 
 class ItemWidget extends StatelessWidget {
   const ItemWidget({Key? key}) : super(key: key);
 
-  // final List<String>? Imageurl = [
-  //   'https://rukminim1.flixcart.com/image/832/832/xif0q/shoe/u/s/3/-original-imaggcyckpkgqvfp.jpeg?q=70',
-  //   'https://rukminim1.flixcart.com/image/832/832/k1i6ikw0/shoe/r/m/g/bq3204-002-7-nike-black-white-anthracite-original-imafh2hvnqttmhf9.jpeg?q=70',
-  //   'https://rukminim1.flixcart.com/image/832/832/xif0q/shoe/9/l/i/-original-imagjuhyc8djsphg.jpeg?q=70',
-  //   'https://rukminim1.flixcart.com/image/832/832/xif0q/shoe/u/s/3/-original-imaggcyckpkgqvfp.jpeg?q=70',
-  //   'https://rukminim1.flixcart.com/image/832/832/xif0q/shoe/u/s/3/-original-imaggcyckpkgqvfp.jpeg?q=70',
-  //   'https://rukminim1.flixcart.com/image/832/832/k1i6ikw0/shoe/r/m/g/bq3204-002-7-nike-black-white-anthracite-original-imafh2hvnqttmhf9.jpeg?q=70',
-  //   'https://rukminim1.flixcart.com/image/832/832/xif0q/shoe/9/l/i/-original-imagjuhyc8djsphg.jpeg?q=70',
-  //   'https://rukminim1.flixcart.com/image/832/832/xif0q/shoe/u/s/3/-original-imaggcyckpkgqvfp.jpeg?q=70',
-  // ];
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Product>>(
-        stream: FirebaseFirestore.instance
-            .collection('categories')
-            .doc('popular')
-            .collection('popular')
-            .snapshots()
-            .map((snapshot) =>
+        stream: FirebaseFirestore.instance.collection('all').snapshots().map(
+            (snapshot) =>
                 snapshot.docs.map((e) => Product.fromJson(e.data())).toList()),
-
-        // FirebaseFirestore.instance
-        //     .collection('categories')
-        //     .doc('popular')
-        //     .collection('popular')
-        //     .snapshots(),
-
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            // log(snapshot.data!.length.toString());
             return GridView.builder(
               itemCount: snapshot.data!.length,
-
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 childAspectRatio: 0.80,
                 crossAxisCount: 2,
@@ -53,10 +32,6 @@ class ItemWidget extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 List<Product> documentSnapshot = snapshot.data!;
-                // QueryDocumentSnapshot documentSnapshot =
-                //     snapshot.data!.docs[index];
-                // String id = snapshot.data!.docs[index].id;
-                // log(id);
 
                 return GestureDetector(
                   onTap: () {
@@ -90,21 +65,28 @@ class ItemWidget extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            GestureDetector(
-                              onTap: () {},
-                              child: const Icon(
-                                Icons.favorite_border,
-                                color: Colors.black,
-                              ),
+                            wishlistIcon(
+                              onTap: () {
+                                addToFav(
+                                    product: Product(
+                                  size: documentSnapshot[index].size,
+                                  id: documentSnapshot[index].id,
+                                  name: documentSnapshot[index].name.toString(),
+                                  description:
+                                      documentSnapshot[index].description,
+                                  price: documentSnapshot[index].price,
+                                  quantity: documentSnapshot[index].quantity,
+                                  images: documentSnapshot[index].images,
+                                ));
+                                Utils.showSnackBar(
+                                    context: context,
+                                    text: 'Added to Wishlist');
+                              },
+                              iconData: Icons.favorite_border,
                             ),
-                            // Icon(
-                            //   Icons.add_shopping_cart,
-                            //   color: Colors.black,
-                            // ),
                           ],
                         ),
                         SizedBox(
-                          //margin: EdgeInsets.all(10),
                           child: Image.network(
                             documentSnapshot[index].images[0],
                             width: 120.w,
@@ -139,11 +121,8 @@ class ItemWidget extends StatelessWidget {
                   ),
                 );
               },
-              // childAspectRatio: 0.80,
               physics: const NeverScrollableScrollPhysics(),
-              // crossAxisCount: 2,
               shrinkWrap: true,
-              // children: [],
             );
           } else {
             return const Align(

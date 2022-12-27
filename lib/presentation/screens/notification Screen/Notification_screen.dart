@@ -13,13 +13,6 @@ class ScreenNotification extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         HeaderTile(
-            // leadingIconbutton: IconButton(
-            //   onPressed: () {},
-            //   icon: Icon(
-            //     Icons.menu,
-            //     color: whiteColor,
-            //   ),
-            // ),
             Title: Text(
               'Notifications',
               style: TextStyle(
@@ -30,7 +23,7 @@ class ScreenNotification extends StatelessWidget {
             TrailingButton: [
               IconButton(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.search,
                   color: whiteColor,
                 ),
@@ -48,7 +41,7 @@ class ScreenNotification extends StatelessWidget {
                     // width: 100.w,
                     //height: 60.h,
                     decoration: BoxDecoration(
-                        color: Color(0xff35383F),
+                        color: const Color(0xff35383F),
                         borderRadius: BorderRadius.circular(10)),
                     child: ListTile(
                       leading: Container(
@@ -57,7 +50,7 @@ class ScreenNotification extends StatelessWidget {
                             borderRadius: BorderRadius.circular(30)),
                         width: 35.sp,
                         height: 35.sp,
-                        child: Icon(
+                        child: const Icon(
                           Icons.notifications_none_outlined,
                           color: Colors.black,
                         ),

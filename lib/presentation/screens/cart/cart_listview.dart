@@ -8,22 +8,16 @@ import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
 import 'package:shoea_app/function/cart_fun.dart';
 import 'package:shoea_app/model/cart_model.dart';
-import 'package:shoea_app/presentation/screens/Auth/widget/snackbarAuth.dart';
+import 'package:shoea_app/core/snackbar/snackbarAuth.dart';
 import 'package:shoea_app/presentation/widgets/quantity_widget.dart';
 
 class CartListView extends StatelessWidget {
   CartListView({
     Key? key,
-    // required this.Cartimage,
-    // required this.CartProductName,
-    // required this.CartProductPrice,
   }) : super(key: key);
 
   int count = 1;
 
-  // final List<String>? Cartimage;
-  // final List<String>? CartProductName;
-  // final List<int>? CartProductPrice;
   double total = 0;
   @override
   Widget build(BuildContext context) {
@@ -45,9 +39,6 @@ class CartListView extends StatelessWidget {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (context, index) {
-                    // QueryDocumentSnapshot documentSnapshot =
-                    //     snapshot.data!.docs[index];
-
                     List<CartModel> documentsnapshot = snapshot.data!;
 
                     final cartlist = snapshot.data;
@@ -58,13 +49,11 @@ class CartListView extends StatelessWidget {
                       log(total.toString());
                     }
                     return Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         k10width,
                         Container(
                           width: 100.w,
                           height: 100.h,
-
                           decoration: BoxDecoration(
                               image: DecorationImage(
                                 image: NetworkImage(
@@ -73,13 +62,6 @@ class CartListView extends StatelessWidget {
                               ),
                               color: whiteColor,
                               borderRadius: BorderRadius.circular(20)),
-                          // child: Image.network(
-                          //   documentSnapshot['image'][0],
-                          //   // Cartimage![index],
-                          //   // width: 50.w,
-                          //   // height: 50.h,
-                          //   fit: BoxFit.contain,
-                          // ),
                         ),
                         k10width,
                         Padding(
@@ -91,7 +73,6 @@ class CartListView extends StatelessWidget {
                               children: [
                                 Text(
                                   documentsnapshot[index].name,
-                                  // CartProductName![index],
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       color: whiteColor,
@@ -99,7 +80,6 @@ class CartListView extends StatelessWidget {
                                       fontWeight: FontWeight.bold),
                                 ),
                                 Text(
-                                  // "₹5,939",
                                   '₹ ${documentsnapshot[index].cartprice}',
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -112,7 +92,6 @@ class CartListView extends StatelessWidget {
                           ),
                         ),
                         Column(
-                          // mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
                                 onPressed: () {
@@ -136,18 +115,11 @@ class CartListView extends StatelessWidget {
                                           .collection('cart')
                                           .doc(documentsnapshot[index].id);
 
-                                  // dynamic cartprice =
-                                  //     documentSnapshot['price'] *
-                                  //         documentSnapshot['orderquantity'];
-
-                                  // var productsize;
                                   Map<String, dynamic> category = {
                                     'orderquantity':
                                         documentsnapshot[index].orderquantity +
                                             1,
-                                    // documentSnapshot['orderquantity'] + 1,
                                     "name": documentsnapshot[index].name,
-                                    //documentSnapshot['name'],
                                     'docname': documentsnapshot[index].id,
                                     'price': documentsnapshot[index].price,
                                     'quantity':
@@ -170,36 +142,10 @@ class CartListView extends StatelessWidget {
                                     log(' quantity updated');
                                   });
                                 }
-
-                                //  log(count.toString());
-                                //log(state.orderquantity.toString());
-
-                                // log(documentSnapshot['price'].toString());
-
-                                // BlocProvider.of<CartBloc>(context)
-                                //     .add(IncrementCount(
-                                //   // count,
-
-                                //   documentSnapshot['orderquantity'],
-                                // ));
-                                // Product(
-                                //     count: state.count,
-                                //     size: documentSnapshot['size'],
-                                //     id: documentSnapshot['docname'],
-                                //     name: documentSnapshot['name'],
-                                //     description:
-                                //         documentSnapshot['description'],
-                                //     price: documentSnapshot['price'],
-                                //     quantity:
-                                //         documentSnapshot['quantity'],
-                                //     images:
-                                //         documentSnapshot['image']))) as List<Product>;
-                                // log(state.cartModel[index].id.toString());
                               },
                               Quantity: documentsnapshot[index]
                                   .orderquantity
                                   .toString(),
-                              // documentSnapshot['orderquantity'].toString(),
                               OnPressSub: () {
                                 if (documentsnapshot[index].orderquantity > 1) {
                                   DocumentReference documentReference =
@@ -209,14 +155,11 @@ class CartListView extends StatelessWidget {
                                           .collection('cart')
                                           .doc(documentsnapshot[index].id);
 
-                                  // var productsize;
                                   Map<String, dynamic> category = {
                                     'orderquantity':
                                         documentsnapshot[index].orderquantity -
                                             1,
-                                    // documentSnapshot['orderquantity'] + 1,
                                     "name": documentsnapshot[index].name,
-                                    //documentSnapshot['name'],
                                     'docname': documentsnapshot[index].id,
                                     'price': documentsnapshot[index].price,
                                     'quantity':
@@ -238,26 +181,6 @@ class CartListView extends StatelessWidget {
                                       .whenComplete(
                                           () => log(' quantity updated'));
                                 }
-
-                                // BlocProvider.of<CartBloc>(context)
-                                //     .add(DecrementCount(
-                                //   // count,
-                                //   // state.cartModel[index].orderquantity,
-                                //   documentSnapshot['orderquantity'] - 1,
-                                //   // state.cartModel
-                                //   // Product(
-                                //   //     count: state.count,
-                                //   //     size: documentSnapshot['size'],
-                                //   //     id: documentSnapshot['docname'],
-                                //   //     name: documentSnapshot['name'],
-                                //   //     description:
-                                //   //         documentSnapshot['description'],
-                                //   //     price: documentSnapshot['price'],
-                                //   //     quantity:
-                                //   //         documentSnapshot['quantity'],
-                                //   //     images:
-                                //   //         documentSnapshot['image'])
-                                // ));
                               },
                             )
                           ],
@@ -265,7 +188,6 @@ class CartListView extends StatelessWidget {
                       ],
                     );
                   },
-                  // itemCount: Cartimage!.length,
                   itemCount: snapshot.data!.length,
                 );
               } else {

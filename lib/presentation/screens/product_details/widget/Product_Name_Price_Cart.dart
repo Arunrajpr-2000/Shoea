@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shoea_app/Application/Bloc/CartBloc/cart_bloc.dart';
 import 'package:shoea_app/model/cart_model.dart';
-import 'package:shoea_app/model/product_model.dart';
 
 import '../../../../core/color/colors.dart';
 
@@ -44,7 +43,7 @@ class ProductNamePriceCart extends StatelessWidget {
                 width: 250.w,
                 child: Text(
                   // 'Nike Air Jordan\n ₹5,939',
-                  '${productname}',
+                  '$productname',
                   style: TextStyle(
                       overflow: TextOverflow.ellipsis,
                       color: whiteColor,
@@ -69,7 +68,6 @@ class ProductNamePriceCart extends StatelessWidget {
               onPressed: () {
                 BlocProvider.of<CartBloc>(context).add(AddtoCart(
                     cartModel: CartModel(
-                        // totalcart: double.parse(productprice),
                         orderquantity: int.parse(count),
                         size: productsize,
                         cartprice: double.parse(productprice),
@@ -81,7 +79,7 @@ class ProductNamePriceCart extends StatelessWidget {
                         images: productimage),
                     context: context));
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.add_shopping_cart_rounded,
                 size: 25,
                 color: whiteColor,

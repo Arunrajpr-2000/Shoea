@@ -20,9 +20,7 @@ class ListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-        leading: Icon(LeadIcon, color: IconColor
-            //Color(0xff2b2b29),
-            ),
+        leading: Icon(LeadIcon, color: IconColor),
         title: Text(
           '$Title',
           style: TextStyle(color: IconColor),

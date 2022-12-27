@@ -18,14 +18,14 @@ class SearchFuction {
   }
 
   static Future<List<Product>> fetchAllProduct() async {
-    final _currentEntries = FirebaseFirestore.instance
-        .collection('categories')
-        .doc('popular')
-        .collection('popular')
+    final searchproduct = FirebaseFirestore.instance
+        .collection('all')
+        // .doc('popular')
+        // .collection('popular')
         .snapshots()
         .map((snapshot) =>
             snapshot.docs.map((doc) => Product.fromJson(doc.data())).toList());
-    final temp = await _currentEntries.first;
+    final temp = await searchproduct.first;
     return temp;
   }
 }

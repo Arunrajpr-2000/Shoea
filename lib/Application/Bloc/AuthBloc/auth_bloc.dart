@@ -1,8 +1,6 @@
 import 'dart:developer';
 import 'package:bloc/bloc.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:meta/meta.dart';
-import 'package:shoea_app/Application/Provider/google_signIn.dart';
 import 'package:shoea_app/function/user_auth.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';

@@ -26,17 +26,17 @@ class QuantityWidget extends StatelessWidget {
         children: [
           IconButton(
               onPressed: OnPressSub,
-              icon: Icon(
+              icon: const Icon(
                 Icons.remove,
                 color: whiteColor,
               )),
           Text(
             "$Quantity",
-            style: TextStyle(color: whiteColor),
+            style: const TextStyle(color: whiteColor),
           ),
           IconButton(
               onPressed: OnPressAdd,
-              icon: Icon(
+              icon: const Icon(
                 Icons.add,
                 color: whiteColor,
               )),

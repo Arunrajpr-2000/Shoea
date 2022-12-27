@@ -16,49 +16,25 @@ class ScreenSearch extends StatelessWidget {
       backgroundColor: ScaffoldBgcolor,
       appBar: AppBar(
         backgroundColor: const Color(0xff1F222B),
-        // automaticallyImplyLeading: false,
         centerTitle: true,
-        // const Color(0xff1F222B),
-        //  Colors.green,
         title: TextfieldContainer(
           Controller: searchController,
           onChanged: (value) {
-            context.read<SearchBloc>().add(SearchSong(search_text: value));
+            context.read<SearchBloc>().add(Searchproduct(search_text: value));
           },
-          // leadingIcon: const Icon(
-          //   Icons.search,
-          //   color: Colors.grey,
-          // ),
           TrailingIcon: IconButton(
             onPressed: searchController.clear,
             icon: const Icon(Icons.clear, color: whiteColor),
           ),
           hinttext: 'Looking For shoes',
         ),
-
-        //    TextField(
-        //     controller: searchController,
-        //     onChanged: (value) {
-        //       context.read<SearchBloc>().add(SearchSong(search_text: value));
-        //     },
-        //     decoration: InputDecoration(
-        //       hintText: 'Product title/name',
-        //   suffixIcon: IconButton(
-        //     onPressed: searchController.clear,
-        //     icon: const Icon(
-        //       Icons.clear,
-        //       color: Color.fromARGB(222, 1, 64, 64),
-        //     ),
-        //   ),
-        //     ),
-        //   ),
       ),
       body: BlocBuilder<SearchBloc, SearchState>(
         builder: (context, state) {
           if (state.productList.isEmpty) {
             return const Center(
               child: Text(
-                'No Product with this name',
+                'Result Not found',
                 style: TextStyle(color: whiteColor),
               ),
             );

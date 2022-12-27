@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shoea_app/core/color/colors.dart';
+import 'package:shoea_app/core/constants/constants.dart';
 
 class CircleAvatarWidget extends StatelessWidget {
   const CircleAvatarWidget({Key? key, this.BrandName, this.Ontap})
       : super(key: key);
 
-  // final Image? Imagepath;
   final String? BrandName;
   final Function()? Ontap;
 
@@ -21,8 +21,11 @@ class CircleAvatarWidget extends StatelessWidget {
           BrandName.toString(),
           maxLines: 1,
           textAlign: TextAlign.center,
-          style: const TextStyle(
-              color: whiteColor, overflow: TextOverflow.ellipsis, fontSize: 14),
+          style: TextStyle(
+              fontFamily: oswald,
+              color: whiteColor,
+              overflow: TextOverflow.visible,
+              fontSize: 14),
         ),
       ),
     );

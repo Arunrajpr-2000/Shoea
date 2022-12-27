@@ -3,7 +3,8 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shoea_app/presentation/screens/Auth/widget/snackbarAuth.dart';
+import 'package:shoea_app/core/snackbar/snackbarAuth.dart';
+// import 'package:shoea_app/presentation/screens/Auth/widget/snackbarAuth.dart';
 
 class UserAuth {
   static Future signUp(

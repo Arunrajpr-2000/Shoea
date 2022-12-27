@@ -12,6 +12,7 @@ class TextfieldContainer extends StatelessWidget {
       this.TrailingIcon,
       this.validator,
       this.initialValue,
+      this.onTap,
       this.errorText,
       this.keyboardType,
       this.leadingIcon,
@@ -24,6 +25,7 @@ class TextfieldContainer extends StatelessWidget {
   String? initialValue;
   TextInputType? keyboardType;
   IconButton? TrailingIcon;
+  void Function()? onTap;
 
   // void OnChange;
   void Function(String)? onChanged;
@@ -39,8 +41,10 @@ class TextfieldContainer extends StatelessWidget {
           color: const Color(0xff1F222B),
           borderRadius: BorderRadius.circular(10)),
       child: ListTile(
+        onTap: onTap,
         leading: leadingIcon,
         title: TextFormField(
+          onTap: onTap,
           initialValue: initialValue,
           keyboardType: keyboardType,
           autovalidateMode: AutovalidateMode.onUserInteraction,

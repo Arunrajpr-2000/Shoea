@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/presentation/screens/Home/home_screen.dart';
 import 'package:shoea_app/presentation/screens/cart/cart_screen.dart';
-import 'package:shoea_app/presentation/screens/notification%20Screen/Notification_screen.dart';
+
 import 'package:shoea_app/presentation/screens/order%20History/order_history.dart';
 import 'package:shoea_app/presentation/screens/profile%20Screen/profile_screen.dart';
 import 'package:shoea_app/presentation/screens/wishlist/wishlist_screen.dart';
@@ -15,8 +14,8 @@ class MainScreen extends StatelessWidget {
 
   final _pages = [
     ScreenHome(),
-    ScreenWishlist(),
-    ScreenCart(),
+    const ScreenWishlist(),
+    const ScreenCart(),
     OrderPage(),
     ScreenProfile()
   ];
@@ -24,7 +23,7 @@ class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: DrawerWidget(),
+      drawer: const DrawerWidget(),
       backgroundColor: Colors.black,
       body: SafeArea(
         child: ValueListenableBuilder(

@@ -4,37 +4,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shoea_app/core/color/colors.dart';
-import 'package:shoea_app/core/constants/constants.dart';
+
 import 'package:shoea_app/function/cart_fun.dart';
 import 'package:shoea_app/model/cart_model.dart';
-import 'package:shoea_app/model/product_model.dart';
 import 'package:shoea_app/presentation/screens/cart/cart_listview.dart';
-import 'package:shoea_app/presentation/screens/payment/payment_screen.dart';
-import 'package:shoea_app/presentation/widgets/Payment_stack_widget.dart';
+import 'package:shoea_app/presentation/screens/search/search_screen.dart';
 import 'package:shoea_app/presentation/widgets/headerTile.dart';
-import 'package:shoea_app/presentation/widgets/quantity_widget.dart';
 
 class ScreenCart extends StatelessWidget {
-  ScreenCart({
+  const ScreenCart({
     Key? key,
   }) : super(key: key);
-
-  // final List<String>? Cartimage = [
-  //   'https://rukminim1.flixcart.com/image/832/832/l58iaa80/shoe/9/y/q/-original-imagfyaseenuzn6d.jpeg?q=70',
-  //   'https://rukminim1.flixcart.com/image/832/832/xif0q/shoe/u/s/3/-original-imaggcyckpkgqvfp.jpeg?q=70',
-  //   'https://rukminim1.flixcart.com/image/832/832/xif0q/shoe/4/j/1/6-nikefecion-6-nnikhe-blue-original-imaggxz9wf5s7q3d.jpeg?q=70',
-  // ];
-
-  // final List<String>? CartProductName = [
-  //   'Nike Air Max',
-  //   "Nike Jordan",
-  //   'Nike shoe',
-  // ];
-  // final List<int>? CartProductPrice = [
-  //   2000,
-  //   2300,
-  //   700,
-  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +34,11 @@ class ScreenCart extends StatelessWidget {
                   ),
                   TrailingButton: [
                     IconButton(
-                      onPressed: () {},
-                      icon: Icon(
+                      onPressed: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ScreenSearch()));
+                      },
+                      icon: const Icon(
                         Icons.search,
                         color: whiteColor,
                       ),
@@ -77,7 +60,6 @@ class ScreenCart extends StatelessWidget {
                         .map((docs) => CartModel.fromJson(docs.data()))
                         .toList()),
                 builder: (context, snapshot) {
-                  // List<CartModel> documentsnapshot = snapshot.data!;
                   if (snapshot.hasData) {
                     final cartlist = snapshot.data!;
                     double total = 0;
@@ -87,16 +69,34 @@ class ScreenCart extends StatelessWidget {
                       log(total.toString());
                     }
                     final list = snapshot.data;
-                    return TotalPriceBottomWidget(
-                      onTap: () {
-                        // Navigator.of(context).push(MaterialPageRoute(
-                        //     builder: (context) => PaymentScreen(
-                        //           price: total.toString(),
-                        //         )));
-                      },
-                      Title: 'Total Cost',
-                      selectPayments: 'Checkout',
-                      totalPrice: total.toString(),
+                    return Container(
+                      height: 100.h,
+                      width: 360.w,
+                      decoration: const BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15),
+                            topRight: Radius.circular(15),
+                          )),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Text(
+                            'Total Cost',
+                            style: TextStyle(
+                                color: ScaffoldBgcolor,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            '₹ $total',
+                            style: TextStyle(
+                                color: ScaffoldBgcolor,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     );
                   } else {
                     return const Align(

@@ -9,7 +9,7 @@ import 'package:shoea_app/Application/Bloc/CartBloc/cart_bloc.dart';
 import 'package:shoea_app/Application/Provider/google_signIn.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shoea_app/application/Bloc/search/search_bloc.dart';
-import 'package:shoea_app/presentation/screens/Auth/auth_page.dart';
+import 'package:shoea_app/presentation/screens/onboard/splashscreen.dart';
 
 // import 'package:http/http.dart' as http;
 
@@ -45,15 +45,14 @@ class MyApp extends StatelessWidget {
               ),
             ],
             child: MaterialApp(
-              debugShowCheckedModeBanner: false,
-              title: 'Flutter E-Commerce',
-              theme: ThemeData(
-                unselectedWidgetColor: Colors.white,
-                // disabledColor: Colors.blue,
-                primarySwatch: Colors.blue,
-              ),
-              home: LoginStream(),
-            ));
+                debugShowCheckedModeBanner: false,
+                title: 'Lace it',
+                theme: ThemeData(
+                  unselectedWidgetColor: Colors.white,
+                  // disabledColor: Colors.blue,
+                  primarySwatch: Colors.blue,
+                ),
+                home: const SplashScreen()));
       },
     );
   }

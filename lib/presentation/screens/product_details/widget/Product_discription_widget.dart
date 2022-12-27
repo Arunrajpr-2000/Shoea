@@ -17,7 +17,6 @@ class ProductDiscription extends StatelessWidget {
       child: Text(
         '${productdescription.toString()}',
         maxLines: 3,
-        //'Air Jordan is an American brand of basketball shoes athletic, casual, and style clothing produced by Nike....',
         style: TextStyle(
             overflow: TextOverflow.ellipsis,
             color: whiteColor.withOpacity(0.9),

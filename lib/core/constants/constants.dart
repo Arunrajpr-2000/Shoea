@@ -15,3 +15,6 @@ const k10width = SizedBox(
 const k20width = SizedBox(
   width: 20,
 );
+
+String italian = 'Italiana';
+String oswald = 'Oswald';

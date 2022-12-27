@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shoea_app/core/color/colors.dart';
 import 'package:shoea_app/core/constants/constants.dart';
+import 'package:shoea_app/core/snackbar/snackbarAuth.dart';
 import 'package:shoea_app/model/product_model.dart';
 import 'package:shoea_app/presentation/screens/payment/payment_screen.dart';
 import 'package:shoea_app/presentation/widgets/quantity_widget.dart';
@@ -23,7 +24,6 @@ class ProductView extends StatelessWidget {
       required this.productimage})
       : super(key: key);
 
-  //final List<String>? shoesizes = ['38', '40', '42'];
   final String productid;
   final String? productname;
   final String? productprice;
@@ -51,10 +51,15 @@ class ProductView extends StatelessWidget {
                 color: Colors.black,
               )),
         ),
-        actions: const [
-          Icon(
-            Icons.favorite_border,
-            color: Colors.red,
+        actions: [
+          IconButton(
+            onPressed: () {
+              Utils.showSnackBar(context: context, text: 'Added to wishlist');
+            },
+            icon: const Icon(
+              Icons.favorite_border,
+              color: Colors.red,
+            ),
           ),
           k20width,
         ],
@@ -155,11 +160,6 @@ class ProductView extends StatelessWidget {
                       ));
                 }),
           ),
-          QuantityWidget(
-            OnPressAdd: () {},
-            OnPressSub: () {},
-            Quantity: '1',
-          )
         ],
       ),
     );
